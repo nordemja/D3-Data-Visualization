@@ -1,6 +1,10 @@
-const iceCreamFlavors = ['vanilla', 'chocolate', 'strawberry', 'cookies and cream', 'cookie dough'];
-const p = d3.select('body').selectAll('p')
-    .data(iceCreamFlavors)
-    .enter()
-    .append('p')
-    .text(d => d);
+d3.csv('data/exoplanets-1.csv')
+  .then(data => {
+  	console.log('Data loading complete. Work with dataset.');
+    console.log(data);
+
+
+})
+.catch(error => {
+    console.error('Error loading the data');
+});
