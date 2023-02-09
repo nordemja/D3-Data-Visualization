@@ -41,7 +41,7 @@ class Barchart {
 
     // Initialize scales
     vis.xScale = d3.scaleLinear()
-        .range([0, vis.width]);
+        .range([0, vis.width-50]);
 
     vis.yScale = d3.scaleBand()
         .range([0, vis.height])

@@ -1,46 +1,23 @@
 <!DOCTYPE html>
 <html>
-  
-  <head>
-    <title>
-      Project 1: Out of This World!
-    </title>
-    <meta charset="UTF-8">
+<head>
+    <title>D3 Interactive Bar Chart</title>
     <link rel="icon" href="data:;base64,iVBORwOKGO=" />
+    <link rel="stylesheet" href="css/bootstrap.min.css">
     <link rel="stylesheet" href="css/style.css">
-  </head>
-  
-  <body>
-    <!-- Add HTML content, SVG drawing area, ... -->
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,500&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="container">
+        <h1>Frequency of Exoplanet Star Amounts</h1>
+        
+        <svg id="barchart"></svg>
+    </div>
 
-    <b>
-      <p id='title1'>
-        Out of This World
-      </p>
-    </b>
-    <p id='title2'>
-      Justin Nordeman
-    </p>
-    </b>
-    <p id='title3'>
-      Source:
-      <a href="https://exoplanetarchive.ipac.caltech.edu/cgi-bin/TblView/nph-tblView?app=ExoTbls&config=PS">
-        NASA Exoplanet Archive
-      </a>
-    </p>
-    </text>
-
-    <svg id="barchart"></svg>
-
+    <div id="tooltip"></div>
     
-    <!-- D3 bundle -->
-    <script src="js/d3.v6.min.js">
-    </script>
-    <!-- Our JS code -->
-    <script src="js/barchart.js">
-    </script>
-    <script src="js/main.js">
-    </script>
-  </body>
-
+    <script src="js/d3.v6.min.js"></script>
+    <script src="js/barchart.js"></script>
+    <script src="js/main.js"></script>
+</body>
 </html>
