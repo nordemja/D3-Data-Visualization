@@ -9,9 +9,15 @@ d3.csv('data/exoplanets-1.csv')
     });
 
     // Initialize chart
-    //const barchart = new Barchart({ parentElement: '#barchart'}, data);
+    const barchart = new Barchart({ 
+        parentElement: '#barchart',
+        containerWidth: '510',
+        containerHeight: '150',
+        margin: {top: 5, right: 5, bottom: 20, left: 50}
 
-    //barchart.updateVis()
+    }, data);
+
+    barchart.updateVis()
     
 })
 .catch(error => {
