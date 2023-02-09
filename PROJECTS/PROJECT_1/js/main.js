@@ -19,6 +19,7 @@ d3.csv('data/exoplanets-1.csv')
 
     barchart.updateVis()
     
+    
 })
 .catch(error => {
     console.error(console.error());
