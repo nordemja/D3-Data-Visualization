@@ -10,6 +10,7 @@ d3.csv('data/vancouver_trails.csv')
       d.distance = +d.distance;
     });
     
+    console.log(data);
     scatterplot = new Scatterplot({ parentElement: '#scatterplot'}, data);
     scatterplot.updateVis();
   })

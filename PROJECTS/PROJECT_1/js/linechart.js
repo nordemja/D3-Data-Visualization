@@ -62,6 +62,7 @@ class LineChart {
     vis.yAxisG = vis.chart.append('g')
         .attr('class', 'axis y-axis');
 
+    
     // We need to make sure that the tracking area is on top of other chart elements
     vis.marks = vis.chart.append('g');
     vis.trackingArea = vis.chart.append('rect')
@@ -81,6 +82,7 @@ class LineChart {
         .attr('r', 4);
 
     vis.tooltip.append('text');
+
   }
 
   /**
@@ -89,8 +91,8 @@ class LineChart {
   updateVis() {
     let vis = this;
     
-    vis.xValue = d => d.date;
-    vis.yValue = d => d.close;
+    vis.xValue = d => d.year;
+    vis.yValue = d => d.count;
 
     vis.line = d3.line()
         .x(d => vis.xScale(vis.xValue(d)))
@@ -99,8 +101,6 @@ class LineChart {
     // Set the scale input domains
     vis.xScale.domain(d3.extent(vis.data, vis.xValue));
     vis.yScale.domain(d3.extent(vis.data, vis.yValue));
-
-    vis.bisectDate = d3.bisector(vis.xValue).left;
 
     vis.renderVis();
   }
@@ -118,7 +118,7 @@ class LineChart {
         .attr('class', 'chart-line')
         .attr('d', vis.line);
 
-    vis.trackingArea
+    /*vis.trackingArea
         .on('mouseenter', () => {
           vis.tooltip.style('display', 'block');
         })
@@ -143,7 +143,7 @@ class LineChart {
           vis.tooltip.select('text')
               .attr('transform', `translate(${vis.xScale(d.date)},${(vis.yScale(d.close) - 15)})`)
               .text(Math.round(d.close));
-        });
+        });*/
     
     // Update the axes
     vis.xAxisG.call(vis.xAxis);

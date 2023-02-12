@@ -27,11 +27,6 @@ class Scatterplot {
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
 
-    // Initialize scales
-    vis.colorScale = d3.scaleOrdinal()
-        .range(['#d3eecd', '#7bc77e', '#2a8d46']) // light green to dark green
-        .domain(['Easy','Intermediate','Difficult']);
-
     vis.xScale = d3.scaleLinear()
         .range([0, vis.width]);
 
@@ -70,20 +65,22 @@ class Scatterplot {
         .attr('class', 'axis y-axis');
 
     // Append both axis titles
+
+    /*
     vis.chart.append('text')
         .attr('class', 'axis-title')
         .attr('y', vis.height - 15)
         .attr('x', vis.width + 10)
         .attr('dy', '.71em')
         .style('text-anchor', 'end')
-        .text('Distance');
+        .text('Mass');
 
     vis.svg.append('text')
         .attr('class', 'axis-title')
         .attr('x', 0)
         .attr('y', 0)
         .attr('dy', '.71em')
-        .text('Hours');
+        .text('Radius');*/
   }
 
   /**
@@ -93,9 +90,8 @@ class Scatterplot {
     let vis = this;
     
     // Specificy accessor functions
-    vis.colorValue = d => d.difficulty;
-    vis.xValue = d => d.time;
-    vis.yValue = d => d.distance;
+    vis.xValue = d => d.st_mass;
+    vis.yValue = d => d.st_radius;
 
     // Set the scale input domains
     vis.xScale.domain([0, d3.max(vis.data, vis.xValue)]);
@@ -112,13 +108,13 @@ class Scatterplot {
 
     // Add circles
     const circles = vis.chart.selectAll('.point')
-        .data(vis.data, d => d.trail)
+        .data(vis.data, d => d.pl_name)
       .join('circle')
         .attr('class', 'point')
         .attr('r', 4)
         .attr('cy', d => vis.yScale(vis.yValue(d)))
         .attr('cx', d => vis.xScale(vis.xValue(d)))
-        .attr('fill', d => vis.colorScale(vis.colorValue(d)));
+        .attr('fill', '#15ae7b');
 
     // Tooltip event listeners
     circles
@@ -128,12 +124,12 @@ class Scatterplot {
             .style('left', (event.pageX + vis.config.tooltipPadding) + 'px')   
             .style('top', (event.pageY + vis.config.tooltipPadding) + 'px')
             .html(`
-              <div class="tooltip-title">${d.trail}</div>
-              <div><i>${d.region}</i></div>
+              <div class="tooltip-title">test</div>
+              <div><i>test</i></div>
               <ul>
-                <li>${d.distance} km, ~${d.time} hours</li>
-                <li>${d.difficulty}</li>
-                <li>${d.season}</li>
+                <li>test km, ~test hours</li>
+                <li>test</li>
+                <li>test</li>
               </ul>
             `);
         })
