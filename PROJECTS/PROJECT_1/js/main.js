@@ -74,8 +74,14 @@ d3.csv('data/exoplanets-1.csv')
     barchart1 = new Barchart({ parentElement: '#barchart1'}, planet_arr);
     barchart1.updateVis();
 
-    barchart2 = new Barchart({ parentElement: '#barchart2'}, discover_arr);
-    barchart2.updateVis();
+    //barchart2 = new Barchart({ parentElement: '#barchart2'}, discover_arr);
+    //barchart2.updateVis();
+
+    barchart3 = new Barchart({ parentElement: '#barchart3'}, discover_arr);
+    barchart3.updateVis();
+
+    barchart4 = new Barchart({ parentElement: '#barchart4'}, star_arr);
+    barchart4.updateVis();
 
     
     
