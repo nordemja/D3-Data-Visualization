@@ -49,7 +49,7 @@ h1 {
   stroke: #8693a0;
 }
 .y-axis .domain {
-  display: none;
+  stroke: #8693a0;
 }
 
 .chart-area {

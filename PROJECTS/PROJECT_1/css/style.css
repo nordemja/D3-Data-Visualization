@@ -33,12 +33,10 @@ body {
     shape-rendering: crispEdges;
     stroke: #888;
   }
-  .y-axis path {
-    display: none;
+  .y-axis .domain {
+    stroke: #8693a0;
   }
-  .axis line {
-    display: none;
-  }
+  
   .btn {
     font-size: 11px;
     color: #adadad;

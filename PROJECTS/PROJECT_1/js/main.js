@@ -19,7 +19,6 @@ d3.csv('data/exoplanets-1.csv')
     let = disc_year_arr = [];
 
     data.forEach(d => { //ARROW function - for each object in the array, pass it as a parameter to this function
-        //d.sy_snum = +d.sy_snum; // convert string 'sy_snum' to number
         d.st_mass = + d.st_mass;
         d.st_rad = + d.st_rad;
     

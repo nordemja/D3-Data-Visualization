@@ -40,7 +40,7 @@ class LineChart {
         //.tickFormat(d => d + ' km');
 
     vis.yAxis = d3.axisLeft(vis.yScale)
-        .ticks(4)
+        .ticks(8)
         .tickSizeOuter(0)
         .tickPadding(10);
 
