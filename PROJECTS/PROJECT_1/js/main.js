@@ -70,6 +70,8 @@ d3.csv('data/exoplanets-1.csv')
         star_arr.push(temp);
     }
 
+    console.log(star_arr);
+
     for (let i = 0; i < Object.keys(planetDict).length; i++) {
         temp = Object();
         temp.star_num = i+1;
@@ -80,7 +82,7 @@ d3.csv('data/exoplanets-1.csv')
     for (const property in star_orbit_dict) {
         temp = Object();
         if (property == "") {
-            temp.star_num = "Unkown"
+            temp.star_num = "Unknown"
         } else {
             temp.star_num = property;
         }
@@ -90,8 +92,14 @@ d3.csv('data/exoplanets-1.csv')
         }
     }
 
-    console.log(star_orbit_arr);
+    for (const property in star_orbit_arr) {
+        if (star_orbit_arr[property].star_num != "Unknown") {
+            temp = Object();
+            habitable_arr.push(star_orbit_arr[property].star_num);
+        }
+    }
 
+    console.log(habitable_arr);
     
     for (const property in discoverDict) {
         temp = Object();
