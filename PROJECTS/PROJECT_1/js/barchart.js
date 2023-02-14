@@ -5,17 +5,19 @@ class Barchart {
    * @param {Object}
    * @param {Array}
    */
-  constructor(_config, _data) {
+  constructor(_config, _data, x_axis_label, y_axis_label) {
     // Configuration object with defaults
     this.config = {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 710,
       containerHeight: _config.containerHeight || 200,
-      margin: _config.margin || {top: 10, right: 5, bottom: 25, left: 50},
+      margin: _config.margin || {top: 25, right: 5, bottom: 25, left: 50},
       reverseOrder: _config.reverseOrder || false,
       tooltipPadding: _config.tooltipPadding || 15
     }
     this.data = _data;
+    this.x_axis_label = x_axis_label;
+    this.y_axis_label = y_axis_label;
     this.initVis();
   }
   
@@ -43,8 +45,7 @@ class Barchart {
 
     vis.yAxis = d3.axisLeft(vis.yScale)
         .ticks(6)
-        .tickSizeOuter(0)
-        .tickFormat(d => d); // Format y-axis ticks as millions
+        .tickSizeOuter(0);
 
     // Define size of SVG drawing area
     vis.svg = d3.select(vis.config.parentElement)
@@ -124,10 +125,12 @@ class Barchart {
           d3.select('#tooltip').style('opacity', 0);
         });
 
+      vis.rotate = 10
+
     // Update axes
     vis.xAxisG
         .transition().duration(1000)
-        .call(vis.xAxis);
+        .call(vis.xAxis)
 
     vis.yAxisG.call(vis.yAxis);
   }

@@ -18,7 +18,7 @@ body {
     font-size: 1.4rem;
   }
   .bar {
-    fill: #15ae7b;
+    fill: steelblue;;
     shape-rendering: crispEdges;
   }
   .bar:hover {
@@ -65,6 +65,6 @@ body {
   }
   .chart-line {
     fill: none;
-    stroke: black;
+    stroke: steelblue;
     stroke-width: 2px;
   }

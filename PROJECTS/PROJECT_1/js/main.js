@@ -21,6 +21,9 @@ d3.csv('data/exoplanets-1.csv')
     let = disc_year_dict = {};
     let = disc_year_arr = [];
 
+    let habitable_dict = {};
+    let habitable_arr= [];
+
     data.forEach(d => { //ARROW function - for each object in the array, pass it as a parameter to this function
         d.st_mass = +d.st_mass;
         d.st_rad = +d.st_rad;
@@ -31,6 +34,7 @@ d3.csv('data/exoplanets-1.csv')
         } else {
             starDict[d.sy_snum] += 1;
         }
+
 
         if (planetDict[d.sy_pnum] == undefined) {
             planetDict[d.sy_pnum] = 1
@@ -81,7 +85,9 @@ d3.csv('data/exoplanets-1.csv')
             temp.star_num = property;
         }
         temp.frequency = star_orbit_dict[property];
-        star_orbit_arr.push(temp);
+        if (temp.frequency >= 20) {
+            star_orbit_arr.push(temp);
+        }
     }
 
     console.log(star_orbit_arr);
@@ -102,26 +108,33 @@ d3.csv('data/exoplanets-1.csv')
     }
 
     // Initialize chart and then show it
-    barchart = new Barchart({ parentElement: '#barchart'}, star_arr);
+
+    // Sort data by population
+    star_arr.sort((a,b) => b.frequency - a.frequency);
+
+    barchart = new Barchart({ parentElement: '#barchart'}, star_arr, "x axis", "y axis");
     barchart.updateVis();
 
-    barchart1 = new Barchart({ parentElement: '#barchart1'}, planet_arr);
+    planet_arr.sort((a,b) => b.frequency - a.frequency);
+    barchart1 = new Barchart({ parentElement: '#barchart1'}, planet_arr, "x axis", "y axis");
     barchart1.updateVis();
 
-    barchart2 = new Barchart({ parentElement: '#barchart2'}, star_orbit_arr);
+    star_orbit_arr.sort((a,b) => b.frequency - a.frequency);
+    barchart2 = new Barchart({ parentElement: '#barchart2'}, star_orbit_arr, "x axis", "y axis");
     barchart2.updateVis();
 
-    barchart3 = new Barchart({ parentElement: '#barchart3'}, discover_arr);
+    discover_arr.sort((a,b) => b.frequency - a.frequency);
+    barchart3 = new Barchart({ parentElement: '#barchart3'}, discover_arr, "x axis", "y axis");
     barchart3.updateVis();
 
-    //barchart4 = new Barchart({ parentElement: '#barchart4'}, star_arr);
-    //barchart4.updateVis();
+    DualBarchart = new dual_barchart({ parentElement: '#dual_barchart'}, star_arr, "x axis", "y axis");
+    DualBarchart.updateVis();
 
     lineChart = new LineChart({ parentElement: '#linechart'}, disc_year_arr);
     lineChart.updateVis();
 
     
-    let data_w_no_blank_radius = []
+    /*let data_w_no_blank_radius = []
 
     data.forEach((d, index) => {
         if (d.st_rad != 0) {
@@ -131,7 +144,7 @@ d3.csv('data/exoplanets-1.csv')
 
     //console.log(data_w_no_blank_radius);
     scatterplot = new Scatterplot({ parentElement: '#scatterplot'}, data_w_no_blank_radius);
-    scatterplot.updateVis();
+    scatterplot.updateVis();*/
 
     
     
