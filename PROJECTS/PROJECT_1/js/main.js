@@ -1,3 +1,6 @@
+const parseTime = d3.timeParse("%Y-%m-%d");
+
+
 d3.csv('data/exoplanets-1.csv')
   .then(data => {
   	console.log('Data loading complete. Work with dataset.');
@@ -19,8 +22,9 @@ d3.csv('data/exoplanets-1.csv')
     let = disc_year_arr = [];
 
     data.forEach(d => { //ARROW function - for each object in the array, pass it as a parameter to this function
-        d.st_mass = + d.st_mass;
-        d.st_rad = + d.st_rad;
+        d.st_mass = +d.st_mass;
+        d.st_rad = +d.st_rad;
+        d.disc_year = +d.disc_year;
     
         if (starDict[d.sy_snum] == undefined) {
             starDict[d.sy_snum] = 1
@@ -35,7 +39,7 @@ d3.csv('data/exoplanets-1.csv')
         }
 
 
-        if (star_orbit_dict[d.st_spectype.charAt(0)] == undefined) {
+        if (star_orbit_dict[d.st_spectype.charAt(0)] == undefined )  {
             star_orbit_dict[d.st_spectype.charAt(0)] = 1
         } else {
             star_orbit_dict[d.st_spectype.charAt(0)] += 1;
@@ -52,10 +56,8 @@ d3.csv('data/exoplanets-1.csv')
         } else {
             disc_year_dict[d.disc_year] += 1;
         }
-
-
-    
     });
+
 
     for (let i = 0; i < Object.keys(starDict).length; i++) {
         temp = Object();
@@ -71,6 +73,19 @@ d3.csv('data/exoplanets-1.csv')
         planet_arr.push(temp);
     }
 
+    for (const property in star_orbit_dict) {
+        temp = Object();
+        if (property == "") {
+            temp.star_num = "Unkown"
+        } else {
+            temp.star_num = property;
+        }
+        temp.frequency = star_orbit_dict[property];
+        star_orbit_arr.push(temp);
+    }
+
+    console.log(star_orbit_arr);
+
     
     for (const property in discoverDict) {
         temp = Object();
@@ -81,13 +96,10 @@ d3.csv('data/exoplanets-1.csv')
 
     for (const property in disc_year_dict) {
         temp = Object();
-        temp.year = property;
+        temp.year = +property;
         temp.count = disc_year_dict[property];
         disc_year_arr.push(temp);
     }
-
-    console.log(disc_year_arr);
-
 
     // Initialize chart and then show it
     barchart = new Barchart({ parentElement: '#barchart'}, star_arr);
@@ -96,8 +108,8 @@ d3.csv('data/exoplanets-1.csv')
     barchart1 = new Barchart({ parentElement: '#barchart1'}, planet_arr);
     barchart1.updateVis();
 
-    //barchart2 = new Barchart({ parentElement: '#barchart2'}, discover_arr);
-    //barchart2.updateVis();
+    barchart2 = new Barchart({ parentElement: '#barchart2'}, star_orbit_arr);
+    barchart2.updateVis();
 
     barchart3 = new Barchart({ parentElement: '#barchart3'}, discover_arr);
     barchart3.updateVis();
@@ -108,7 +120,7 @@ d3.csv('data/exoplanets-1.csv')
     lineChart = new LineChart({ parentElement: '#linechart'}, disc_year_arr);
     lineChart.updateVis();
 
-
+    
     let data_w_no_blank_radius = []
 
     data.forEach((d, index) => {
@@ -117,7 +129,7 @@ d3.csv('data/exoplanets-1.csv')
         }
     }) 
 
-    console.log(data_w_no_blank_radius);
+    //console.log(data_w_no_blank_radius);
     scatterplot = new Scatterplot({ parentElement: '#scatterplot'}, data_w_no_blank_radius);
     scatterplot.updateVis();
 

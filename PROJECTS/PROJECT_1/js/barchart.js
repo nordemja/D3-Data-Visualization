@@ -11,7 +11,7 @@ class Barchart {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 710,
       containerHeight: _config.containerHeight || 200,
-      margin: _config.margin || {top: 10, right: 5, bottom: 25, left: 30},
+      margin: _config.margin || {top: 10, right: 5, bottom: 25, left: 50},
       reverseOrder: _config.reverseOrder || false,
       tooltipPadding: _config.tooltipPadding || 15
     }
@@ -44,7 +44,7 @@ class Barchart {
     vis.yAxis = d3.axisLeft(vis.yScale)
         .ticks(6)
         .tickSizeOuter(0)
-        .tickFormat(d3.formatPrefix('.0s', 1e3)); // Format y-axis ticks as millions
+        .tickFormat(d => d); // Format y-axis ticks as millions
 
     // Define size of SVG drawing area
     vis.svg = d3.select(vis.config.parentElement)

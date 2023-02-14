@@ -10,7 +10,7 @@ class LineChart {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 710,
       containerHeight: _config.containerHeight || 200,
-      margin: _config.margin || {top: 25, right: 30, bottom: 30, left: 50}
+      margin: _config.margin || {top: 30, right: 30, bottom: 30, left: 50}
     }
     this.data = _data;
     this.initVis();
@@ -25,8 +25,8 @@ class LineChart {
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
 
-    vis.xScale = d3.scaleTime()
-        .range([0, vis.width]);
+    vis.xScale = d3.scaleLinear()
+        .range([0, vis.width-10]);
 
     vis.yScale = d3.scaleLinear()
         .range([vis.height, 0])
@@ -34,10 +34,10 @@ class LineChart {
 
     // Initialize axes
     vis.xAxis = d3.axisBottom(vis.xScale)
-        .ticks(6)
+        .ticks(8)
         .tickSizeOuter(0)
-        .tickPadding(10);
-        //.tickFormat(d => d + ' km');
+        .tickPadding(10)
+        .tickFormat(d => d);
 
     vis.yAxis = d3.axisLeft(vis.yScale)
         .ticks(8)
@@ -99,8 +99,10 @@ class LineChart {
         .y(d => vis.yScale(vis.yValue(d)));
 
     // Set the scale input domains
-    vis.xScale.domain(d3.extent(vis.data, vis.xValue));
+    vis.xScale.domain([1992,2023]);
     vis.yScale.domain(d3.extent(vis.data, vis.yValue));
+
+    vis.bisectDate = d3.bisector(vis.xValue).left;
 
     vis.renderVis();
   }
@@ -118,7 +120,7 @@ class LineChart {
         .attr('class', 'chart-line')
         .attr('d', vis.line);
 
-    /*vis.trackingArea
+    vis.trackingArea
         .on('mouseenter', () => {
           vis.tooltip.style('display', 'block');
         })
@@ -134,16 +136,17 @@ class LineChart {
           const index = vis.bisectDate(vis.data, date, 1);
           const a = vis.data[index - 1];
           const b = vis.data[index];
-          const d = b && (date - a.date > b.date - date) ? b : a; 
-
+          const d = b && (date - a.date > b.date - date) ? b : a;
+  
           // Update tooltip
+          
           vis.tooltip.select('circle')
-              .attr('transform', `translate(${vis.xScale(d.date)},${vis.yScale(d.close)})`);
+              .attr('transform', `translate(${vis.xScale(d.year)},${vis.yScale(d.count)})`);
           
           vis.tooltip.select('text')
-              .attr('transform', `translate(${vis.xScale(d.date)},${(vis.yScale(d.close) - 15)})`)
-              .text(Math.round(d.close));
-        });*/
+              .attr('transform', `translate(${vis.xScale(d.year)},${(vis.yScale(d.count) - 15)})`)
+              .text(d.count);
+        });
     
     // Update the axes
     vis.xAxisG.call(vis.xAxis);

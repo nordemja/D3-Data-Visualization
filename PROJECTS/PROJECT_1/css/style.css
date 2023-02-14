@@ -63,3 +63,8 @@ body {
     font-size: 10px;
     color: #888;
   }
+  .chart-line {
+    fill: none;
+    stroke: black;
+    stroke-width: 2px;
+  }
