@@ -154,13 +154,6 @@ d3.csv('data/exoplanets-1.csv')
  
     });
 
-    console.log(A_dict)
-    console.log(F_dict)
-    console.log(G_dict)
-    console.log(K_dict)
-    console.log(M_dict)
-
-
 
     for (let i = 0; i < Object.keys(starDict).length; i++) {
         temp = Object();
@@ -215,8 +208,6 @@ d3.csv('data/exoplanets-1.csv')
             habitable_arr.push(temp);
         }
     }
-
-    console.log(habitable_arr);
     
     for (const property in discoverDict) {
         temp = Object();
