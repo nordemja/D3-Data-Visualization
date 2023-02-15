@@ -25,6 +25,10 @@ body {
     fill: #c15f45;
     transition: fill ease-in-out 200ms;
   }
+  .dual_bar:hover {
+    fill: #237f0c;
+    transition: fill ease-in-out 200ms;
+  }
   .axis text {
     fill: #666;
     font-size: 12px;

@@ -24,6 +24,12 @@ d3.csv('data/exoplanets-1.csv')
     let habitable_dict = {};
     let habitable_arr= [];
 
+    let A_dict = {};
+    let F_dict = {};
+    let G_dict = {};
+    let K_dict = {};
+    let M_dict = {};
+
     data.forEach(d => { //ARROW function - for each object in the array, pass it as a parameter to this function
         d.st_mass = +d.st_mass;
         d.st_rad = +d.st_rad;
@@ -62,6 +68,99 @@ d3.csv('data/exoplanets-1.csv')
         }
     });
 
+    data.forEach(d => {
+        star_type = d.st_spectype.charAt(0)
+        if (star_type == "A") {
+
+            if(d.pl_orbsmax >= 8.5 && d.pl_orbsmax <= 12.5) {
+                if (A_dict["habitable"] == undefined) {
+                    A_dict["habitable"] = 1
+                } else {
+                    A_dict["habitable"] += 1;
+                }
+            } else {
+                if (A_dict["unhabitable"] == undefined) {
+                    A_dict["unhabitable"] = 1
+                } else {
+                    A_dict["unhabitable"] += 1;
+                }
+            }
+
+        } else if (star_type == "F") {
+
+            if(d.pl_orbsmax >= 1.5 && d.pl_orbsmax <= 2.2) {
+                if (F_dict["habitable"] == undefined) {
+                    F_dict["habitable"] = 1
+                } else {
+                    F_dict["habitable"] += 1;
+                }
+            } else {
+                if (F_dict["unhabitable"] == undefined) {
+                    F_dict["unhabitable"] = 1
+                } else {
+                    F_dict["unhabitable"] += 1;
+                }
+            }
+
+        } else if (star_type == "G") {
+
+            if(d.pl_orbsmax >= .95 && d.pl_orbsmax <= 1.4) {
+                if (G_dict["habitable"] == undefined) {
+                    G_dict["habitable"] = 1
+                } else {
+                    G_dict["habitable"] += 1;
+                }
+            } else {
+                if (G_dict["unhabitable"] == undefined) {
+                    G_dict["unhabitable"] = 1
+                } else {
+                    G_dict["unhabitable"] += 1;
+                }
+            }
+
+        } else if (star_type == "K") {
+
+            if(d.pl_orbsmax >= .38 && d.pl_orbsmax <= .56) {
+                if (K_dict["habitable"] == undefined) {
+                    K_dict["habitable"] = 1
+                } else {
+                    K_dict["habitable"] += 1;
+                }
+            } else {
+                if (K_dict["unhabitable"] == undefined) {
+                    K_dict["unhabitable"] = 1
+                } else {
+                    K_dict["unhabitable"] += 1;
+                }
+            }
+
+        } else if (star_type == "M") {
+
+            if(d.pl_orbsmax >= .08 && d.pl_orbsmax <= .12) {
+                if (M_dict["habitable"] == undefined) {
+                    M_dict["habitable"] = 1
+                } else {
+                    M_dict["habitable"] += 1;
+                }
+            } else {
+                if (M_dict["unhabitable"] == undefined) {
+                    M_dict["unhabitable"] = 1
+                } else {
+                    M_dict["unhabitable"] += 1;
+                }
+            }
+
+        }
+ 
+    });
+
+    console.log(A_dict)
+    console.log(F_dict)
+    console.log(G_dict)
+    console.log(K_dict)
+    console.log(M_dict)
+
+
 
     for (let i = 0; i < Object.keys(starDict).length; i++) {
         temp = Object();
@@ -69,8 +168,6 @@ d3.csv('data/exoplanets-1.csv')
         temp.frequency = starDict[i+1];
         star_arr.push(temp);
     }
-
-    console.log(star_arr);
 
     for (let i = 0; i < Object.keys(planetDict).length; i++) {
         temp = Object();
@@ -95,7 +192,27 @@ d3.csv('data/exoplanets-1.csv')
     for (const property in star_orbit_arr) {
         if (star_orbit_arr[property].star_num != "Unknown") {
             temp = Object();
-            habitable_arr.push(star_orbit_arr[property].star_num);
+            star_type =  star_orbit_arr[property].star_num
+            temp.group = star_type
+            if (star_type == "A") {
+                temp.habitable = A_dict["habitable"]
+                temp.unhabitable = A_dict["unhabitable"]
+            } else if (star_type == "F") {
+                temp.habitable = F_dict["habitable"]
+                temp.unhabitable = F_dict["unhabitable"]
+            } else if (star_type == "G") {
+                temp.habitable = G_dict["habitable"]
+                temp.unhabitable = G_dict["unhabitable"]
+            } else if (star_type == "K") {
+                temp.habitable = K_dict["habitable"]
+                temp.unhabitable = K_dict["unhabitable"]
+            } else if (star_type == "M") {
+                temp.habitable = M_dict["habitable"]
+                temp.unhabitable = M_dict["unhabitable"]
+            } 
+
+
+            habitable_arr.push(temp);
         }
     }
 
@@ -135,7 +252,7 @@ d3.csv('data/exoplanets-1.csv')
     barchart3 = new Barchart({ parentElement: '#barchart3'}, discover_arr, "x axis", "y axis");
     barchart3.updateVis();
 
-    DualBarchart = new dual_barchart({ parentElement: '#dual_barchart'}, star_arr, "x axis", "y axis");
+    DualBarchart = new dual_barchart({ parentElement: '#dual_barchart'}, habitable_arr, ['unhabitable', 'habitable'], "x axis", "y axis");
     DualBarchart.updateVis();
 
     lineChart = new LineChart({ parentElement: '#linechart'}, disc_year_arr);
