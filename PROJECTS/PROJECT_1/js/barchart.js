@@ -44,8 +44,6 @@ class Barchart {
         .tickSizeOuter(0);
 
     vis.yAxis = d3.axisLeft(vis.yScale)
-        .ticks(6)
-        .tickSizeOuter(0);
 
     // Define size of SVG drawing area
     vis.svg = d3.select(vis.config.parentElement)
@@ -102,7 +100,7 @@ class Barchart {
     bars.style('opacity', 0.5)
       .transition().duration(1000)
         .style('opacity', 1)
-        .attr('class', 'bar')
+        .attr('class', 'bar') 
         .attr('x', d => vis.xScale(vis.xValue(d)))
         .attr('width', vis.xScale.bandwidth())
         .attr('height', d => vis.height - vis.yScale(vis.yValue(d)))
@@ -124,8 +122,6 @@ class Barchart {
         .on('mouseleave', () => {
           d3.select('#tooltip').style('opacity', 0);
         });
-
-      vis.rotate = 10
 
     // Update axes
     vis.xAxisG
