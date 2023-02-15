@@ -250,7 +250,7 @@ d3.csv('data/exoplanets-1.csv')
     lineChart.updateVis();
 
     
-    /*let data_w_no_blank_radius = []
+    let data_w_no_blank_radius = []
 
     data.forEach((d, index) => {
         if (d.st_rad != 0) {
@@ -260,7 +260,7 @@ d3.csv('data/exoplanets-1.csv')
 
     //console.log(data_w_no_blank_radius);
     scatterplot = new Scatterplot({ parentElement: '#scatterplot'}, data_w_no_blank_radius);
-    scatterplot.updateVis();*/
+    scatterplot.updateVis();
 
     
     
