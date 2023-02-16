@@ -10,7 +10,7 @@ class Scatterplot {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 710,
       containerHeight: _config.containerHeight || 200,
-      margin: _config.margin || {top: 25, right: 20, bottom: 20, left: 35},
+      margin: _config.margin || {top: 25, right: 5, bottom: 25, left: 50},
       tooltipPadding: _config.tooltipPadding || 15
     }
     this.data = _data;
@@ -22,10 +22,16 @@ class Scatterplot {
    */
   initVis() {
     let vis = this;
+    console.log(vis.data)
 
     // Calculate inner chart size. Margin specifies the space around the actual chart.
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
+
+    // Initialize scales
+    vis.colorScale = d3.scaleOrdinal()
+        .range(['#d3eecd', '#7bc77e', '#2a8d46']) // light green to dark green
+        .domain(['Easy','Intermediate','Difficult']);
 
     vis.xScale = d3.scaleLinear()
         .range([0, vis.width]);
@@ -65,13 +71,10 @@ class Scatterplot {
         .attr('class', 'axis y-axis');
 
     // Append both axis titles
-
-    /*
     vis.chart.append('text')
         .attr('class', 'axis-title')
         .attr('y', vis.height - 15)
         .attr('x', vis.width + 10)
-        .attr('dy', '.71em')
         .style('text-anchor', 'end')
         .text('Mass');
 
@@ -80,7 +83,7 @@ class Scatterplot {
         .attr('x', 0)
         .attr('y', 0)
         .attr('dy', '.71em')
-        .text('Radius');*/
+        .text('Radius');
   }
 
   /**
@@ -90,8 +93,9 @@ class Scatterplot {
     let vis = this;
     
     // Specificy accessor functions
+    vis.colorValue = d => d.difficulty;
     vis.xValue = d => d.st_mass;
-    vis.yValue = d => d.st_radius;
+    vis.yValue = d => d.st_rad;
 
     // Set the scale input domains
     vis.xScale.domain([0, d3.max(vis.data, vis.xValue)]);
@@ -108,13 +112,13 @@ class Scatterplot {
 
     // Add circles
     const circles = vis.chart.selectAll('.point')
-        .data(vis.data, d => d.pl_name)
+        .data(vis.data, d => d.trail)
       .join('circle')
         .attr('class', 'point')
         .attr('r', 4)
         .attr('cy', d => vis.yScale(vis.yValue(d)))
         .attr('cx', d => vis.xScale(vis.xValue(d)))
-        .attr('fill', '#15ae7b');
+        .attr('fill', d => vis.colorScale(vis.colorValue(d)));
 
     // Tooltip event listeners
     circles

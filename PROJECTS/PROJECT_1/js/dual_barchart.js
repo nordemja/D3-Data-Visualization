@@ -43,6 +43,7 @@ class dual_barchart {
           .tickSizeOuter(0);
   
       vis.yAxis = d3.axisLeft(vis.yScale)
+          .tickSizeOuter(0)
           .ticks(6)
 
       // Define size of SVG drawing area

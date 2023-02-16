@@ -40,18 +40,13 @@ body {
   .y-axis .domain {
     stroke: #8693a0;
   }
-  
-  .btn {
-    font-size: 11px;
-    color: #adadad;
+
+  .point {
+    fill: "black"
   }
-  #sorting:hover, #sorting:focus {
-    text-decoration: none;
-    box-shadow: none;
-  }
-  #sorting img {
-    opacity: 0.8;
-  }
+
+
+  /*tooltip*/
   #tooltip {
     position: absolute;
     opacity: 0;
@@ -67,6 +62,8 @@ body {
     font-size: 10px;
     color: #888;
   }
+
+  /*line chart*/
   .chart-line {
     fill: none;
     stroke: steelblue;
