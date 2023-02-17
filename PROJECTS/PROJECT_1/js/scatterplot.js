@@ -10,7 +10,7 @@ class Scatterplot {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 710,
       containerHeight: _config.containerHeight || 200,
-      margin: _config.margin || {top: 25, right: 5, bottom: 25, left: 50},
+      margin: _config.margin || {top: 5, right: 50, bottom: 25, left: 50},
       tooltipPadding: _config.tooltipPadding || 15
     }
     this.data = _data;
@@ -24,27 +24,34 @@ class Scatterplot {
     let vis = this;
     console.log(vis.data)
 
+    /*
+    var lowest = 100;
+    var highest = 0;
+    var tmp;
+    for (var i=data.length-1; i>=0; i--) {
+        tmp = data[i].pl_bmasse;
+        if (tmp < lowest) lowest = tmp;
+        if (tmp > highest) highest = tmp;
+    }
+    console.log(highest, lowest);*/
+
     // Calculate inner chart size. Margin specifies the space around the actual chart.
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
 
     // Initialize scales
-    vis.colorScale = d3.scaleOrdinal()
-        .range(['#d3eecd', '#7bc77e', '#2a8d46']) // light green to dark green
-        .domain(['Easy','Intermediate','Difficult']);
 
-    vis.xScale = d3.scaleLinear()
+    vis.xScale = d3.scaleLog()
         .range([0, vis.width]);
 
-    vis.yScale = d3.scaleLinear()
+    vis.yScale = d3.scaleLog()
         .range([vis.height, 0]);
 
     // Initialize axes
     vis.xAxis = d3.axisBottom(vis.xScale)
         .ticks(6)
         .tickSize(-vis.height - 10)
-        .tickPadding(10)
-        .tickFormat(d => d + ' km');
+        .tickPadding(10);
 
     vis.yAxis = d3.axisLeft(vis.yScale)
         .ticks(6)
@@ -76,14 +83,14 @@ class Scatterplot {
         .attr('y', vis.height - 15)
         .attr('x', vis.width + 10)
         .style('text-anchor', 'end')
-        .text('Mass');
+        .text('Radius');
 
     vis.svg.append('text')
         .attr('class', 'axis-title')
         .attr('x', 0)
         .attr('y', 0)
         .attr('dy', '.71em')
-        .text('Radius');
+        .text('Mass');
   }
 
   /**
@@ -93,13 +100,23 @@ class Scatterplot {
     let vis = this;
     
     // Specificy accessor functions
-    vis.colorValue = d => d.difficulty;
-    vis.xValue = d => d.st_mass;
-    vis.yValue = d => d.st_rad;
+    vis.xValue = d => d.pl_rade;
+    vis.yValue = d => d.pl_bmasse;
+
+    vis.x_range = d3.extent(vis.data, function(d) { return d.pl_rade; })
+    console.log(vis.x_range)
+    vis.y_range =d3.extent(vis.data, function(d) { return d.pl_bmasse; })
+    console.log(vis.y_range)
 
     // Set the scale input domains
-    vis.xScale.domain([0, d3.max(vis.data, vis.xValue)]);
-    vis.yScale.domain([0, d3.max(vis.data, vis.yValue)]);
+    vis.xScale .domain(d3.extent(vis.data, function(d) { return d.pl_rade; }));
+    vis.yScale .domain(d3.extent(vis.data, function(d) { return d.pl_bmasse; }))
+
+    vis.xAxisG
+    .call(vis.xAxis)
+
+    vis.yAxisG
+        .call(vis.yAxis)
 
     vis.renderVis();
   }
@@ -116,15 +133,14 @@ class Scatterplot {
       .join('circle')
         .attr('class', 'point')
         .attr('r', 4)
-        .attr('cy', d => vis.yScale(vis.yValue(d)))
-        .attr('cx', d => vis.xScale(vis.xValue(d)))
-        .attr('fill', d => vis.colorScale(vis.colorValue(d)));
+        .attr("cx", function (d) { return vis.xScale(d.pl_rade); } )
+        .attr("cy", function (d) { return vis.yScale(d.pl_bmasse); } )
+        .attr('fill', "steelblue");
 
     // Tooltip event listeners
     circles
         .on('mouseover', (event,d) => {
           d3.select('#tooltip')
-            .style('display', 'block')
             .style('left', (event.pageX + vis.config.tooltipPadding) + 'px')   
             .style('top', (event.pageY + vis.config.tooltipPadding) + 'px')
             .html(`
@@ -143,12 +159,5 @@ class Scatterplot {
     
     // Update the axes/gridlines
     // We use the second .call() to remove the axis and just show gridlines
-    vis.xAxisG
-        .call(vis.xAxis)
-        .call(g => g.select('.domain').remove());
-
-    vis.yAxisG
-        .call(vis.yAxis)
-        .call(g => g.select('.domain').remove())
   }
 }

@@ -34,6 +34,8 @@ d3.csv('data/exoplanets-1.csv')
         d.st_mass = +d.st_mass;
         d.st_rad = +d.st_rad;
         d.disc_year = +d.disc_year;
+        d.pl_bmasse = +d.pl_bmasse;
+        d.pl_rade = +d.pl_rade;
     
         if (starDict[d.sy_snum] == undefined) {
             starDict[d.sy_snum] = 1
@@ -252,8 +254,9 @@ d3.csv('data/exoplanets-1.csv')
     
     let data_w_no_blank_radius = []
 
+    let min = 0;
     data.forEach((d, index) => {
-        if (d.st_rad != 0) {
+        if (d.pl_rade  > 0 && d.pl_bmasse > 0) {
             data_w_no_blank_radius.push(data[index])
         }
     }) 

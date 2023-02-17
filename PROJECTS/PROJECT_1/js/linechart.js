@@ -99,7 +99,7 @@ class LineChart {
         .y(d => vis.yScale(vis.yValue(d)));
 
     // Set the scale input domains
-    vis.xScale.domain([1992,2023]);
+    vis.xScale.domain(d3.extent(vis.data, vis.xValue));
     vis.yScale.domain(d3.extent(vis.data, vis.yValue));
 
     vis.bisectDate = d3.bisector(vis.xValue).left;
