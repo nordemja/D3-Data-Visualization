@@ -24,17 +24,6 @@ class Scatterplot {
     let vis = this;
     console.log(vis.data)
 
-    /*
-    var lowest = 100;
-    var highest = 0;
-    var tmp;
-    for (var i=data.length-1; i>=0; i--) {
-        tmp = data[i].pl_bmasse;
-        if (tmp < lowest) lowest = tmp;
-        if (tmp > highest) highest = tmp;
-    }
-    console.log(highest, lowest);*/
-
     // Calculate inner chart size. Margin specifies the space around the actual chart.
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
@@ -104,9 +93,7 @@ class Scatterplot {
     vis.yValue = d => d.pl_bmasse;
 
     vis.x_range = d3.extent(vis.data, function(d) { return d.pl_rade; })
-    console.log(vis.x_range)
     vis.y_range =d3.extent(vis.data, function(d) { return d.pl_bmasse; })
-    console.log(vis.y_range)
 
     // Set the scale input domains
     vis.xScale .domain(d3.extent(vis.data, function(d) { return d.pl_rade; }));
