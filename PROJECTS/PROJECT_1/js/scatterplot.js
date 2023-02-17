@@ -92,9 +92,6 @@ class Scatterplot {
     vis.xValue = d => d.pl_rade;
     vis.yValue = d => d.pl_bmasse;
 
-    vis.x_range = d3.extent(vis.data, function(d) { return d.pl_rade; })
-    vis.y_range =d3.extent(vis.data, function(d) { return d.pl_bmasse; })
-
     // Set the scale input domains
     vis.xScale .domain(d3.extent(vis.data, function(d) { return d.pl_rade; }));
     vis.yScale .domain(d3.extent(vis.data, function(d) { return d.pl_bmasse; }))
