@@ -24,6 +24,8 @@ d3.csv('data/exoplanets-1.csv')
     let habitable_dict = {};
     let habitable_arr= [];
 
+    let distance_arr = []
+
     let A_dict = {};
     let F_dict = {};
     let G_dict = {};
@@ -36,6 +38,8 @@ d3.csv('data/exoplanets-1.csv')
         d.disc_year = +d.disc_year;
         d.pl_bmasse = +d.pl_bmasse;
         d.pl_rade = +d.pl_rade;
+        d.sy_dist = +d.sy_dist
+      
     
         if (starDict[d.sy_snum] == undefined) {
             starDict[d.sy_snum] = 1
@@ -68,6 +72,10 @@ d3.csv('data/exoplanets-1.csv')
         } else {
             disc_year_dict[d.disc_year] += 1;
         }
+
+        temp = Object()
+        temp.distance = d.sy_dist
+        distance_arr.push(temp)
     });
 
     data.forEach(d => {
@@ -248,13 +256,16 @@ d3.csv('data/exoplanets-1.csv')
     DualBarchart = new dual_barchart({ parentElement: '#dual_barchart'}, habitable_arr, ['unhabitable', 'habitable'], "x axis", "y axis");
     DualBarchart.updateVis();
 
+    console.log(distance_arr)
+    histogram = new Histogram({ parentElement: '#histogram'}, distance_arr);
+    histogram.updateVis()
+
     lineChart = new LineChart({ parentElement: '#linechart'}, disc_year_arr);
     lineChart.updateVis();
 
     
     let data_w_no_blank_radius = []
 
-    let min = 0;
     data.forEach((d, index) => {
         if (d.pl_rade  > 0 && d.pl_bmasse > 0) {
             data_w_no_blank_radius.push(data[index])

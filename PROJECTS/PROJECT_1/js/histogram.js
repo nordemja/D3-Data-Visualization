@@ -81,10 +81,10 @@ class Histogram {
         // set the parameters for the histogram
         vis.histogram = d3.histogram()
             .value(function(d) {
-                return d.price;
+                return d.distance;
             }) // I need to give the vector of value
             .domain(vis.xScale.domain()) // then the domain of the graphic
-            .thresholds(vis.xScale.ticks(70)); // then the numbers of bins
+            .thresholds(vis.xScale.ticks(280)); // then the numbers of bins
 
         // And apply this function to data to get the bins
         vis.bins = vis.histogram(vis.data);
