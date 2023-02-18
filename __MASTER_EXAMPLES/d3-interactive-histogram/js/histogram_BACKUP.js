@@ -29,6 +29,7 @@ class Histogram {
      */
     initVis() {
         let vis = this;
+        console.log(vis.data)
 
         // Calculate inner chart size. Margin specifies the space around the actual chart.
         vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
@@ -66,6 +67,9 @@ class Histogram {
         // Append y-axis group 
         vis.yAxisG = vis.chart.append('g')
             .attr('class', 'axis y-axis');
+
+
+
 
     }
 
@@ -108,7 +112,7 @@ class Histogram {
 
 
         // append the bar rectangles to the svg element
-        let bars = vis.chart.selectAll("rect")
+        vis.chart.selectAll("rect")
             .data(vis.bins)
             .enter()
             .append("rect")
@@ -124,29 +128,12 @@ class Histogram {
             })
             .style("fill", "#69b3a2")
 
-
-        // Tooltip event listeners
-        bars
-            .on('mouseover', (event, d) => {
-                d3.select('#tooltip')
-                    .style('opacity', 1)
-                    // Format number with million and thousand separator
-                    .html(`<div class="tooltip-label">Range</div>${d.x0 + " - " + d.x1 + ' miles'} `);
-            })
-            .on('mousemove', (event) => {
-                d3.select('#tooltip')
-                    .style('left', (event.pageX + vis.config.tooltipPadding) + 'px')
-                    .style('top', (event.pageY + vis.config.tooltipPadding) + 'px')
-            })
-            .on('mouseleave', () => {
-                d3.select('#tooltip').style('opacity', 0);
-            })
-
         vis.xAxisG
             .call(vis.xAxis)
 
         vis.yAxisG
             .call(vis.yAxis);
+
 
     }
 }

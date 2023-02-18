@@ -13,6 +13,6 @@ d3.csv('data/price.csv')
     
     // Initialize chart and then show it
     histogram = new Histogram({ parentElement: '#histogram'}, data);
-    console.log("CHART IS RENDERED")
+    histogram.updateVis()
   })
   .catch(error => console.error(error));
