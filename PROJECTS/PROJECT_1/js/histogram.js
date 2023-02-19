@@ -40,7 +40,7 @@ class Histogram {
 
         vis.xScale = d3.scaleLinear()
             .range([0, vis.width])
-            .domain([0, 1000]).nice()
+            .domain([0, 2400]).nice()
 
         vis.xAxis = d3.axisBottom(vis.xScale)
             .tickSizeOuter(0);
@@ -75,16 +75,13 @@ class Histogram {
     updateVis() {
         let vis = this;
 
-
-
-
         // set the parameters for the histogram
         vis.histogram = d3.histogram()
             .value(function(d) {
                 return d.distance;
             }) // I need to give the vector of value
             .domain(vis.xScale.domain()) // then the domain of the graphic
-            .thresholds(vis.xScale.ticks(280)); // then the numbers of bins
+            .thresholds(vis.xScale.ticks(10)); // then the numbers of bins
 
         // And apply this function to data to get the bins
         vis.bins = vis.histogram(vis.data);
