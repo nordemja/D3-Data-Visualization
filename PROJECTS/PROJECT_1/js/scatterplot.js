@@ -8,7 +8,7 @@ class Scatterplot {
   constructor(_config, _data) {
     this.config = {
       parentElement: _config.parentElement,
-      containerWidth: _config.containerWidth || 710,
+      containerWidth: _config.containerWidth || 400,
       containerHeight: _config.containerHeight || 200,
       margin: _config.margin || {top: 5, right: 50, bottom: 25, left: 50},
       tooltipPadding: _config.tooltipPadding || 15
@@ -22,7 +22,6 @@ class Scatterplot {
    */
   initVis() {
     let vis = this;
-    console.log(vis.data)
 
     // Calculate inner chart size. Margin specifies the space around the actual chart.
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;

@@ -9,7 +9,7 @@ class Histogram {
         // Configuration object with defaults
         this.config = {
             parentElement: _config.parentElement,
-            containerWidth: _config.containerWidth || 710,
+            containerWidth: _config.containerWidth || 450,
             containerHeight: _config.containerHeight || 200,
             margin: _config.margin || {
                 top: 10,
@@ -43,7 +43,7 @@ class Histogram {
             .domain([0, 2400]).nice()
 
         vis.xAxis = d3.axisBottom(vis.xScale)
-            .tickSizeOuter(0);
+            .tickSizeOuter(0)
 
         vis.yAxis = d3.axisLeft(vis.yScale)
             .tickSizeOuter(0)
@@ -141,6 +141,9 @@ class Histogram {
 
         vis.xAxisG
             .call(vis.xAxis)
+                .selectAll('text')
+                .style("text-anchor", "start")
+                .attr('transform',"rotate(35)")
 
         vis.yAxisG
             .call(vis.yAxis);

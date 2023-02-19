@@ -9,9 +9,9 @@ class Barchart {
     // Configuration object with defaults
     this.config = {
       parentElement: _config.parentElement,
-      containerWidth: _config.containerWidth || 710,
-      containerHeight: _config.containerHeight || 200,
-      margin: _config.margin || {top: 25, right: 5, bottom: 25, left: 50},
+      containerWidth: _config.containerWidth || 455,
+      containerHeight: _config.containerHeight || 400,
+      margin: _config.margin || {top: 25, right: 90, bottom: 105, left: 50},
       reverseOrder: _config.reverseOrder || false,
       tooltipPadding: _config.tooltipPadding || 15
     }
@@ -125,10 +125,15 @@ class Barchart {
           d3.select('#tooltip').style('opacity', 0);
         });
 
+        
+
     // Update axes
     vis.xAxisG
         .transition().duration(1000)
         .call(vis.xAxis)
+          .selectAll('text')
+            .style("text-anchor", "start")
+            .attr('transform',"rotate(35)")
 
     vis.yAxisG.call(vis.yAxis);
   }

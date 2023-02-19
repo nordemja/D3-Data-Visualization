@@ -238,25 +238,24 @@ d3.csv('data/exoplanets-1.csv')
     // Sort data by population
     star_arr.sort((a,b) => b.frequency - a.frequency);
 
-    barchart = new Barchart({ parentElement: '#barchart'}, star_arr, "x axis", "y axis");
+    barchart = new Barchart({ parentElement: '#barchart'}, star_arr, "Amount of Stars", "Frequency");
     barchart.updateVis();
 
     planet_arr.sort((a,b) => b.frequency - a.frequency);
-    barchart1 = new Barchart({ parentElement: '#barchart1'}, planet_arr, "x axis", "y axis");
+    barchart1 = new Barchart({ parentElement: '#barchart1'}, planet_arr, "Amount of Planets", "Frequency");
     barchart1.updateVis();
 
     star_orbit_arr.sort((a,b) => b.frequency - a.frequency);
-    barchart2 = new Barchart({ parentElement: '#barchart2'}, star_orbit_arr, "x axis", "y axis");
+    barchart2 = new Barchart({ parentElement: '#barchart2'}, star_orbit_arr, "Star Type", "Frequency");
     barchart2.updateVis();
 
     discover_arr.sort((a,b) => b.frequency - a.frequency);
-    barchart3 = new Barchart({ parentElement: '#barchart3'}, discover_arr, "x axis", "y axis");
+    barchart3 = new Barchart({ parentElement: '#barchart3'}, discover_arr, "Dicovery Method", "Frequency");
     barchart3.updateVis();
 
-    DualBarchart = new dual_barchart({ parentElement: '#dual_barchart'}, habitable_arr, ['unhabitable', 'habitable'], "x axis", "y axis");
+    DualBarchart = new dual_barchart({ parentElement: '#dual_barchart'}, habitable_arr, ['unhabitable', 'habitable'], "Star Type", "Frequency");
     DualBarchart.updateVis();
 
-    console.log(distance_arr)
     histogram = new Histogram({ parentElement: '#histogram'}, distance_arr);
     histogram.updateVis()
 
