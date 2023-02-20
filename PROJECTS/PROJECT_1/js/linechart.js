@@ -23,8 +23,6 @@ class LineChart {
    */
   initVis() {
     let vis = this;
-    console.log(vis.x_axis_label)
-    console.log(vis.y_axis_label)
 
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
@@ -34,7 +32,6 @@ class LineChart {
 
     vis.yScale = d3.scaleLinear()
         .range([vis.height, 0])
-        .nice();
 
     // Initialize axes
     vis.xAxis = d3.axisBottom(vis.xScale)
@@ -103,8 +100,8 @@ class LineChart {
         .y(d => vis.yScale(vis.yValue(d)));
 
     // Set the scale input domains
-    vis.xScale.domain(d3.extent(vis.data, vis.xValue));
-    vis.yScale.domain(d3.extent(vis.data, vis.yValue));
+    vis.xScale.domain(d3.extent(vis.data, vis.xValue)).nice();
+    vis.yScale.domain(d3.extent(vis.data, vis.yValue)).nice();
 
     vis.bisectDate = d3.bisector(vis.xValue).left;
 

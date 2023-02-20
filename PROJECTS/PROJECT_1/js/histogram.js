@@ -12,7 +12,7 @@ class Histogram {
             containerWidth: _config.containerWidth || 450,
             containerHeight: _config.containerHeight || 190,
             margin: _config.margin || {
-                top: 5,
+                top: 50,
                 right: 50,
                 bottom: 45,
                 left: 80
@@ -161,6 +161,14 @@ class Histogram {
             .attr("dy", "1em")
             .style("text-anchor", "middle")
             .text(vis.y_axis_label);
+
+        vis.chart.append("text")
+            .attr("x", (vis.width / 2))             
+            .attr("y", 0 - (vis.config.margin.top / 2))
+            .attr("text-anchor", "middle")  
+            .style("font-size", "16px") 
+            .style("text-decoration", "underline")  
+            .text("Value vs Date Graph");
 
     }
 }

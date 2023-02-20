@@ -10,8 +10,8 @@ class Barchart {
     this.config = {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 425,
-      containerHeight: _config.containerHeight || 400,
-      margin: _config.margin || {top: 25, right: 90, bottom: 105, left: 50},
+      containerHeight: _config.containerHeight || 410,
+      margin: _config.margin || {top: 5, right: 50, bottom: 85, left: 80},
       reverseOrder: _config.reverseOrder || false,
       tooltipPadding: _config.tooltipPadding || 15
     }
@@ -133,7 +133,7 @@ class Barchart {
         .call(vis.xAxis)
           .selectAll('text')
             .style("text-anchor", "start")
-            .attr('transform',"rotate(35)")
+            .attr('transform',"rotate(25)")
 
     vis.yAxisG.call(vis.yAxis);3
 

@@ -67,6 +67,7 @@ d3.csv('data/exoplanets-1.csv')
             discoverDict[d.discoverymethod] += 1;
         }
 
+
         if (disc_year_dict[d.disc_year] == undefined) {
             disc_year_dict[d.disc_year] = 1
         } else {
@@ -218,13 +219,23 @@ d3.csv('data/exoplanets-1.csv')
             habitable_arr.push(temp);
         }
     }
+
+    let other_count = 0
     
     for (const property in discoverDict) {
         temp = Object();
         temp.star_num = property;
         temp.frequency = discoverDict[property];
-        discover_arr.push(temp);
+        if (temp.frequency > 30) {
+            discover_arr.push(temp);
+        } else {
+            other_count += temp.frequency
+        }
     }
+
+    let other_object = {star_num: "Other", frequency: other_count}
+
+    discover_arr.push(other_object)
 
     for (const property in disc_year_dict) {
         temp = Object();
@@ -249,6 +260,7 @@ d3.csv('data/exoplanets-1.csv')
     barchart2 = new Barchart({ parentElement: '#barchart2'}, star_orbit_arr, "Star Type", "Frequency");
     barchart2.updateVis();
 
+    console.log(discover_arr)
     discover_arr.sort((a,b) => b.frequency - a.frequency);
     barchart3 = new Barchart({ parentElement: '#barchart3'}, discover_arr, "Dicovery Method", "Frequency");
     barchart3.updateVis();

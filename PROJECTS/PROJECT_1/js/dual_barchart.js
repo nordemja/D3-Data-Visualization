@@ -25,6 +25,7 @@ class dual_barchart {
   
     initVis() {
         let vis = this;
+        console.log(vis.data)
   
         // Calculate inner chart size. Margin specifies the space around the actual chart.
         vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
@@ -78,7 +79,7 @@ class dual_barchart {
         let vis = this;
   
         vis.xScale.domain(vis.groups)
-        vis.yScale.domain([0,640])
+        vis.yScale.domain(d3.extent(vis.data, function(d) { return d.unhabitable; })).nice()
   
         // Another scale for subgroup position?
         vis.xSubgroup = d3.scaleBand()
