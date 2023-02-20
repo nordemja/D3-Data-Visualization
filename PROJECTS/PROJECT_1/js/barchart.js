@@ -5,19 +5,19 @@ class Barchart {
    * @param {Object}
    * @param {Array}
    */
-  constructor(_config, _data, x_axis_label, y_axis_label) {
+  constructor(_config, _data, _x_axis_label, _y_axis_label) {
     // Configuration object with defaults
     this.config = {
       parentElement: _config.parentElement,
-      containerWidth: _config.containerWidth || 455,
+      containerWidth: _config.containerWidth || 425,
       containerHeight: _config.containerHeight || 400,
       margin: _config.margin || {top: 25, right: 90, bottom: 105, left: 50},
       reverseOrder: _config.reverseOrder || false,
       tooltipPadding: _config.tooltipPadding || 15
     }
     this.data = _data;
-    this.x_axis_label = x_axis_label;
-    this.y_axis_label = y_axis_label;
+    this.x_axis_label = _x_axis_label;
+    this.y_axis_label = _y_axis_label;
     this.initVis();
   }
   
@@ -135,7 +135,26 @@ class Barchart {
             .style("text-anchor", "start")
             .attr('transform',"rotate(35)")
 
-    vis.yAxisG.call(vis.yAxis);
+    vis.yAxisG.call(vis.yAxis);3
+
+    // Append both axis titles
+    vis.chart.append('text')
+    .attr('class', 'axis-title')
+    .attr('y', vis.height + vis.config.margin.bottom)
+    .attr('x', vis.width/2)
+    .style('text-anchor', 'middle')
+    .text(vis.x_axis_label);
+
+  vis.chart.append('text')
+      .attr('class', 'axis-title')
+      .attr("transform", "rotate(-90)")
+      .attr("y", 0 - vis.config.margin.left)
+      .attr("x",0 - (vis.height / 2))
+      .attr("dy", "1em")
+      .style("text-anchor", "middle")
+      .text(vis.y_axis_label);
+
+    
   }
 }
 

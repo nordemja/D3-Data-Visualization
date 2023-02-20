@@ -5,22 +5,24 @@ class Histogram {
      * @param {Object}
      * @param {Array}
      */
-    constructor(_config, _data) {
+    constructor(_config, _data, _x_axis_label, _y_axis_label) {
         // Configuration object with defaults
         this.config = {
             parentElement: _config.parentElement,
             containerWidth: _config.containerWidth || 450,
-            containerHeight: _config.containerHeight || 200,
+            containerHeight: _config.containerHeight || 190,
             margin: _config.margin || {
-                top: 10,
-                right: 30,
-                bottom: 30,
-                left: 50
+                top: 5,
+                right: 50,
+                bottom: 45,
+                left: 80
             },
             reverseOrder: _config.reverseOrder || false,
             tooltipPadding: _config.tooltipPadding || 15
         }
         this.data = _data;
+        this.x_axis_label = _x_axis_label;
+        this.y_axis_label = _y_axis_label;
         this.initVis();
     }
 
@@ -91,8 +93,6 @@ class Histogram {
         })]).nice();
 
 
-
-
         vis.renderVis();
     }
 
@@ -101,8 +101,6 @@ class Histogram {
      */
     renderVis() {
         let vis = this;
-
-
 
         // append the bar rectangles to the svg element
         let bars = vis.chart.selectAll("rect")
@@ -141,12 +139,28 @@ class Histogram {
 
         vis.xAxisG
             .call(vis.xAxis)
-                .selectAll('text')
-                .style("text-anchor", "start")
-                .attr('transform',"rotate(35)")
+            .selectAll('text')
+            .style("text-anchor", "start")
+            .attr('transform', "rotate(35)")
 
         vis.yAxisG
             .call(vis.yAxis);
+
+        vis.chart.append('text')
+            .attr('class', 'axis-title')
+            .attr('y', vis.height + vis.config.margin.bottom)
+            .attr('x', vis.width / 2)
+            .style('text-anchor', 'middle')
+            .text(vis.x_axis_label);
+
+        vis.chart.append('text')
+            .attr('class', 'axis-title')
+            .attr("transform", "rotate(-90)")
+            .attr("y", 0 - vis.config.margin.left)
+            .attr("x", 0 - (vis.height / 2))
+            .attr("dy", "1em")
+            .style("text-anchor", "middle")
+            .text(vis.y_axis_label);
 
     }
 }

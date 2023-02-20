@@ -5,15 +5,17 @@ class Scatterplot {
    * @param {Object}
    * @param {Array}
    */
-  constructor(_config, _data) {
+  constructor(_config, _data, _x_axis_label, _y_axis_label) {
     this.config = {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 400,
-      containerHeight: _config.containerHeight || 200,
-      margin: _config.margin || {top: 5, right: 50, bottom: 25, left: 50},
+      containerHeight: _config.containerHeight || 190,
+      margin: _config.margin || {top: 5, right: 50, bottom: 45, left: 80},
       tooltipPadding: _config.tooltipPadding || 15
     }
     this.data = _data;
+    this.x_axis_label = _x_axis_label;
+    this.y_axis_label = _y_axis_label;
     this.initVis();
   }
   
@@ -22,6 +24,7 @@ class Scatterplot {
    */
   initVis() {
     let vis = this;
+
 
     // Calculate inner chart size. Margin specifies the space around the actual chart.
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
@@ -39,12 +42,14 @@ class Scatterplot {
     vis.xAxis = d3.axisBottom(vis.xScale)
         .ticks(6)
         .tickSize(-vis.height - 10)
-        .tickPadding(10);
+        .tickPadding(10)
+        .tickSizeOuter(0);
 
     vis.yAxis = d3.axisLeft(vis.yScale)
         .ticks(6)
         .tickSize(-vis.width - 10)
-        .tickPadding(10);
+        .tickPadding(10)
+        .tickSizeOuter(0);
 
     // Define size of SVG drawing area
     vis.svg = d3.select(vis.config.parentElement)
@@ -65,20 +70,6 @@ class Scatterplot {
     vis.yAxisG = vis.chart.append('g')
         .attr('class', 'axis y-axis');
 
-    // Append both axis titles
-    vis.chart.append('text')
-        .attr('class', 'axis-title')
-        .attr('y', vis.height - 15)
-        .attr('x', vis.width + 10)
-        .style('text-anchor', 'end')
-        .text('Radius');
-
-    vis.svg.append('text')
-        .attr('class', 'axis-title')
-        .attr('x', 0)
-        .attr('y', 0)
-        .attr('dy', '.71em')
-        .text('Mass');
   }
 
   /**
@@ -92,14 +83,10 @@ class Scatterplot {
     vis.yValue = d => d.pl_bmasse;
 
     // Set the scale input domains
-    vis.xScale .domain(d3.extent(vis.data, function(d) { return d.pl_rade; }));
-    vis.yScale .domain(d3.extent(vis.data, function(d) { return d.pl_bmasse; }))
+    vis.xScale.domain(d3.extent(vis.data, function(d) { return d.pl_rade; }))
+    vis.yScale.domain(d3.extent(vis.data, function(d) { return d.pl_bmasse; }))
 
-    vis.xAxisG
-    .call(vis.xAxis)
 
-    vis.yAxisG
-        .call(vis.yAxis)
 
     vis.renderVis();
   }
@@ -142,5 +129,28 @@ class Scatterplot {
     
     // Update the axes/gridlines
     // We use the second .call() to remove the axis and just show gridlines
+
+    vis.xAxisG
+    .call(vis.xAxis)
+
+    vis.yAxisG
+        .call(vis.yAxis)
+
+    // Append both axis titles
+    vis.chart.append('text')
+        .attr('class', 'axis-title')
+        .attr('y', vis.height + vis.config.margin.bottom)
+        .attr('x', vis.width/2)
+        .style('text-anchor', 'middle')
+        .text(vis.x_axis_label);
+
+    vis.chart.append('text')
+        .attr('class', 'axis-title')
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - vis.config.margin.left)
+        .attr("x",0 - (vis.height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text(vis.y_axis_label);
   }
 }

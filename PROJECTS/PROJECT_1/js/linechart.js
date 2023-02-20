@@ -5,14 +5,16 @@ class LineChart {
    * @param {Object}
    * @param {Array}
    */
-  constructor(_config, _data) {
+  constructor(_config, _data, _x_axis_label, _y_axis_label) {
     this.config = {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 400,
-      containerHeight: _config.containerHeight || 200,
-      margin: _config.margin || {top: 30, right: 30, bottom: 30, left: 50}
+      containerHeight: _config.containerHeight || 190,
+      margin: _config.margin || {top: 5, right: 50, bottom: 45, left: 80}
     }
     this.data = _data;
+    this.x_axis_label = _x_axis_label;
+    this.y_axis_label = _y_axis_label;
     this.initVis();
   }
   
@@ -21,6 +23,8 @@ class LineChart {
    */
   initVis() {
     let vis = this;
+    console.log(vis.x_axis_label)
+    console.log(vis.y_axis_label)
 
     vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
     vis.height = vis.config.containerHeight - vis.config.margin.top - vis.config.margin.bottom;
@@ -151,5 +155,23 @@ class LineChart {
     // Update the axes
     vis.xAxisG.call(vis.xAxis);
     vis.yAxisG.call(vis.yAxis);
+
+
+    // Append both axis titles
+    vis.chart.append('text')
+        .attr('class', 'axis-title')
+        .attr('y', vis.height + vis.config.margin.bottom )
+        .attr('x', vis.width/2)
+        .style('text-anchor', 'middle')
+        .text(vis.x_axis_label);
+
+    vis.chart.append('text')
+        .attr('class', 'axis-title')
+        .attr("transform", "rotate(-90)")
+        .attr("y", 0 - vis.config.margin.left)
+        .attr("x",0 - (vis.height / 2))
+        .attr("dy", "1em")
+        .style("text-anchor", "middle")
+        .text(vis.y_axis_label);
   }
 }

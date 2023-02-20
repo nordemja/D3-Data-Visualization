@@ -256,10 +256,10 @@ d3.csv('data/exoplanets-1.csv')
     DualBarchart = new dual_barchart({ parentElement: '#dual_barchart'}, habitable_arr, ['unhabitable', 'habitable'], "Star Type", "Frequency");
     DualBarchart.updateVis();
 
-    histogram = new Histogram({ parentElement: '#histogram'}, distance_arr);
+    histogram = new Histogram({ parentElement: '#histogram'}, distance_arr, "Range (Miles)", "Frequency");
     histogram.updateVis()
 
-    lineChart = new LineChart({ parentElement: '#linechart'}, disc_year_arr);
+    lineChart = new LineChart({ parentElement: '#linechart'}, disc_year_arr, "Discovery Year", "Count");
     lineChart.updateVis();
 
     
@@ -272,7 +272,7 @@ d3.csv('data/exoplanets-1.csv')
     }) 
 
     //console.log(data_w_no_blank_radius);
-    scatterplot = new Scatterplot({ parentElement: '#scatterplot'}, data_w_no_blank_radius);
+    scatterplot = new Scatterplot({ parentElement: '#scatterplot'}, data_w_no_blank_radius, "Planet Radius (Earth Radius)", "Planet Mass (Earth Mass)");
     scatterplot.updateVis();
 
     
