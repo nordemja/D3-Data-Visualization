@@ -5,27 +5,27 @@ class dual_barchart {
      * @param {Object}
      * @param {Array}
      */
-    constructor(_config, _data, sub_groups, x_axis_label, y_axis_label) {
+    constructor(_config, _data, sub_groups, x_axis_label, y_axis_label, _title) {
       // Configuration object with defaults
       this.config = {
         parentElement: _config.parentElement,
         containerWidth: _config.containerWidth || 400,
         containerHeight: _config.containerHeight || 200,
-        margin: _config.margin || {top: 25, right: 5, bottom: 25, left: 50},
+        margin: _config.margin || {top: 25, right: 5, bottom: 45, left: 50},
         reverseOrder: _config.reverseOrder || false,
         tooltipPadding: _config.tooltipPadding || 15
       }
       this.data = _data;
       this.x_axis_label = x_axis_label;
       this.y_axis_label = y_axis_label;
-      this.sub_groups = sub_groups;
+      this.sub_groups = sub_groups;      
+      this.title = _title;
       this.initVis();
     }
   
   
     initVis() {
         let vis = this;
-        console.log(vis.data)
   
         // Calculate inner chart size. Margin specifies the space around the actual chart.
         vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;
@@ -63,7 +63,6 @@ class dual_barchart {
   
         // Append y-axis group 
         vis.yAxisG = vis.chart.append('g')
-            //.attr("transform", "translate(20,10)")//magic number, change it at will
             .attr('class', 'axis y-axis');
   
         // color palette = one color per subgroup
@@ -95,13 +94,13 @@ class dual_barchart {
         let vis = this;
   
         // Show the bars
-        let bars = vis.svg.append("g")
+        let bars = vis.chart.append("g")
         .selectAll("g")
         // Enter in data = loop group per group
         .data(vis.data)
         .enter()
         .append("g")
-            .attr("transform", function(d) { return "translate(" + vis.xScale(d.group) + ",10)"; })
+            .attr("transform", function(d) { return "translate(" + vis.xScale(d.group) + ",0)"; })
         .selectAll("rect")
         .data(function(d) { return vis.sub_groups.map(function(key) { return {key: key, value: d[key]}; }); })
         .enter().append("rect")
@@ -110,8 +109,8 @@ class dual_barchart {
             .attr("y", function(d) { return vis.yScale(d.value); })
             .attr("width", vis.xSubgroup.bandwidth())
             .attr("height", function(d) { return vis.height - vis.yScale(d.value); })
-            .attr("fill", function(d) { return vis.color(d.key); })
-            .attr("transform", "translate(50,15)");
+            .attr("fill", function(d) { return vis.color(d.key); });
+            //.attr("transform", "translate(50,15)");
         
         
         // Tooltip event listeners
@@ -144,7 +143,7 @@ class dual_barchart {
             // Append both axis titles
     vis.chart.append('text')
         .attr('class', 'axis-title')
-        .attr('y', vis.height + vis.config.margin.bottom)
+        .attr('y', vis.height + vis.config.margin.bottom - 5)
         .attr('x', vis.width/2)
         .style('text-anchor', 'middle')
         .text(vis.x_axis_label);
@@ -152,11 +151,19 @@ class dual_barchart {
     vis.chart.append('text')
         .attr('class', 'axis-title')
         .attr("transform", "rotate(-90)")
-        .attr("y", 0 - vis.config.margin.left)
+        .attr("y", 0 - vis.config.margin.left - 5)
         .attr("x",0 - (vis.height / 2))
         .attr("dy", "1em")
         .style("text-anchor", "middle")
         .text(vis.y_axis_label);
+
+    vis.chart.append("text")
+        .attr("x", (vis.width / 2))             
+        .attr("y", 0 - (vis.config.margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text(vis.title);
   
     }
   

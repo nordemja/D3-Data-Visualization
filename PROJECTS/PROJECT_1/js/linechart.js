@@ -5,16 +5,17 @@ class LineChart {
    * @param {Object}
    * @param {Array}
    */
-  constructor(_config, _data, _x_axis_label, _y_axis_label) {
+  constructor(_config, _data, _x_axis_label, _y_axis_label, _title) {
     this.config = {
       parentElement: _config.parentElement,
       containerWidth: _config.containerWidth || 400,
       containerHeight: _config.containerHeight || 190,
-      margin: _config.margin || {top: 5, right: 50, bottom: 45, left: 80}
+      margin: _config.margin ||  {top: 25, right: 50, bottom: 50, left: 80}
     }
     this.data = _data;
     this.x_axis_label = _x_axis_label;
     this.y_axis_label = _y_axis_label;
+    this.title = _title
     this.initVis();
   }
   
@@ -157,7 +158,7 @@ class LineChart {
     // Append both axis titles
     vis.chart.append('text')
         .attr('class', 'axis-title')
-        .attr('y', vis.height + vis.config.margin.bottom )
+        .attr('y', vis.height + vis.config.margin.bottom - 5)
         .attr('x', vis.width/2)
         .style('text-anchor', 'middle')
         .text(vis.x_axis_label);
@@ -170,5 +171,13 @@ class LineChart {
         .attr("dy", "1em")
         .style("text-anchor", "middle")
         .text(vis.y_axis_label);
+
+    vis.chart.append("text")
+        .attr("x", (vis.width / 2))             
+        .attr("y", 0 - (vis.config.margin.top / 2))
+        .attr("text-anchor", "middle")  
+        .style("font-size", "16px") 
+        .style("text-decoration", "underline")  
+        .text(vis.title);
   }
 }

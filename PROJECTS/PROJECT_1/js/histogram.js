@@ -5,24 +5,20 @@ class Histogram {
      * @param {Object}
      * @param {Array}
      */
-    constructor(_config, _data, _x_axis_label, _y_axis_label) {
+    constructor(_config, _data, _x_axis_label, _y_axis_label, _title) {
         // Configuration object with defaults
         this.config = {
             parentElement: _config.parentElement,
             containerWidth: _config.containerWidth || 450,
-            containerHeight: _config.containerHeight || 190,
-            margin: _config.margin || {
-                top: 50,
-                right: 50,
-                bottom: 45,
-                left: 80
-            },
+            containerHeight: _config.containerHeight || 200,
+            margin: _config.margin ||  {top: 25, right: 50, bottom: 55, left: 80},
             reverseOrder: _config.reverseOrder || false,
             tooltipPadding: _config.tooltipPadding || 15
         }
         this.data = _data;
         this.x_axis_label = _x_axis_label;
         this.y_axis_label = _y_axis_label;
+        this.title = _title;
         this.initVis();
     }
 
@@ -148,7 +144,7 @@ class Histogram {
 
         vis.chart.append('text')
             .attr('class', 'axis-title')
-            .attr('y', vis.height + vis.config.margin.bottom)
+            .attr('y', vis.height + vis.config.margin.bottom - 5)
             .attr('x', vis.width / 2)
             .style('text-anchor', 'middle')
             .text(vis.x_axis_label);
@@ -168,7 +164,7 @@ class Histogram {
             .attr("text-anchor", "middle")  
             .style("font-size", "16px") 
             .style("text-decoration", "underline")  
-            .text("Value vs Date Graph");
+            .text(vis.title);
 
     }
 }

@@ -1,3 +1,23 @@
+#title1 {
+  color: black;
+  text-align: center;
+  font-size: 48px;
+  margin: 0;
+}
+
+#title2 {
+  color: black;
+  text-align: center;
+  font-size: 18px;
+  margin: 0;
+}
+
+#title3 {
+  color: black;
+  text-align: center;
+  font-size: 10px;
+  margin: 50;
+}
 .grid-container {
   display: inline-grid;
   grid-template-columns: auto auto auto auto;

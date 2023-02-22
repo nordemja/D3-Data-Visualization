@@ -193,6 +193,8 @@ d3.csv('data/exoplanets-1.csv')
         }
     }
 
+    
+
     for (const property in star_orbit_arr) {
         if (star_orbit_arr[property].star_num != "Unknown") {
             temp = Object();
@@ -249,29 +251,28 @@ d3.csv('data/exoplanets-1.csv')
     // Sort data by population
     star_arr.sort((a,b) => b.frequency - a.frequency);
 
-    barchart = new Barchart({ parentElement: '#barchart'}, star_arr, "Amount of Stars", "Frequency");
+    barchart = new Barchart({ parentElement: '#barchart'}, star_arr, "Amount of Stars", "Total Number of Planets", "Amount of Stars In Each Exoplanet System");
     barchart.updateVis();
 
     planet_arr.sort((a,b) => b.frequency - a.frequency);
-    barchart1 = new Barchart({ parentElement: '#barchart1'}, planet_arr, "Amount of Planets", "Frequency");
+    barchart1 = new Barchart({ parentElement: '#barchart1'}, planet_arr, "Amount of Planets", "Total Number of Planets", "Amount of Planets In Each Exoplanet System");
     barchart1.updateVis();
 
     star_orbit_arr.sort((a,b) => b.frequency - a.frequency);
-    barchart2 = new Barchart({ parentElement: '#barchart2'}, star_orbit_arr, "Star Type", "Frequency");
+    barchart2 = new Barchart({ parentElement: '#barchart2'}, star_orbit_arr, "Star Type", "Total Number of Planets", "Stars Types Exoplanets Orbit");
     barchart2.updateVis();
 
-    console.log(discover_arr)
     discover_arr.sort((a,b) => b.frequency - a.frequency);
-    barchart3 = new Barchart({ parentElement: '#barchart3'}, discover_arr, "Dicovery Method", "Frequency");
+    barchart3 = new Barchart({ parentElement: '#barchart3'}, discover_arr, "Dicovery Method", "Total Number of Planets", "Disvoery Methods of Exoplanets");
     barchart3.updateVis();
 
-    DualBarchart = new dual_barchart({ parentElement: '#dual_barchart'}, habitable_arr, ['unhabitable', 'habitable'], "Star Type", "Frequency");
+    DualBarchart = new dual_barchart({ parentElement: '#dual_barchart'}, habitable_arr, ['unhabitable', 'habitable'], "Star Type", "Total Number of Planets", "Habitatle and Unhabitable Exoplanets per Star Type");
     DualBarchart.updateVis();
 
-    histogram = new Histogram({ parentElement: '#histogram'}, distance_arr, "Range (Miles)", "Frequency");
+    histogram = new Histogram({ parentElement: '#histogram'}, distance_arr, "Range (Miles)", "Total Number of Planets", "Distance of Exoplanets from Earth");
     histogram.updateVis()
 
-    lineChart = new LineChart({ parentElement: '#linechart'}, disc_year_arr, "Discovery Year", "Count");
+    lineChart = new LineChart({ parentElement: '#linechart'}, disc_year_arr, "Discovery Year", "Count", "Discoveries of Exoplanets over Time");
     lineChart.updateVis();
 
     
@@ -284,7 +285,7 @@ d3.csv('data/exoplanets-1.csv')
     }) 
 
     //console.log(data_w_no_blank_radius);
-    scatterplot = new Scatterplot({ parentElement: '#scatterplot'}, data_w_no_blank_radius, "Planet Radius (Earth Radius)", "Planet Mass (Earth Mass)");
+    scatterplot = new Scatterplot({ parentElement: '#scatterplot'}, data_w_no_blank_radius, "Planet Radius (Earth Radius)", "Planet Mass (Earth Mass)" , "Exoplanet Mass vs Radius");
     scatterplot.updateVis();
 
     
