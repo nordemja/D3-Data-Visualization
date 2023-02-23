@@ -68,7 +68,7 @@ class dual_barchart {
         // color palette = one color per subgroup
         vis.color = d3.scaleOrdinal()
             .domain(vis.sub_groups)
-            .range(['#e41a1c','#377eb8','#4daf4a'])
+            .range(['#f59d0f','#377eb8','#4daf4a'])
         
         vis.updateVis();
   

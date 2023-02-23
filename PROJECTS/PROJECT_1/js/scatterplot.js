@@ -42,15 +42,12 @@ class Scatterplot {
     // Initialize axes
     vis.xAxis = d3.axisBottom(vis.xScale)
         .ticks(6)
-        .tickSize(-vis.height - 10)
-        .tickPadding(10)
-        .tickSizeOuter(0);
+        .tickSizeOuter(0)
+
 
     vis.yAxis = d3.axisLeft(vis.yScale)
         .ticks(6)
-        .tickSize(-vis.width - 10)
-        .tickPadding(10)
-        .tickSizeOuter(0);
+        .tickSizeOuter(0)
 
     // Define size of SVG drawing area
     vis.svg = d3.select(vis.config.parentElement)
@@ -109,24 +106,24 @@ class Scatterplot {
         .attr('fill', "steelblue");
 
     // Tooltip event listeners
+    console.log(vis.data)
+    // Tooltip event listeners
     circles
-        .on('mouseover', (event,d) => {
-          d3.select('#tooltip')
-            .style('left', (event.pageX + vis.config.tooltipPadding) + 'px')   
-            .style('top', (event.pageY + vis.config.tooltipPadding) + 'px')
-            .html(`
-              <div class="tooltip-title">test</div>
-              <div><i>test</i></div>
-              <ul>
-                <li>test km, ~test hours</li>
-                <li>test</li>
-                <li>test</li>
-              </ul>
-            `);
-        })
-        .on('mouseleave', () => {
-          d3.select('#tooltip').style('display', 'none');
-        });
+    .on('mouseover', (event,d) => {
+      d3.select('#tooltip')
+        .style('opacity', 1)
+        .style('display', 'block')
+        .style('left', (event.pageX + vis.config.tooltipPadding) + 'px')
+        .style('top', (event.pageY + vis.config.tooltipPadding) + 'px')
+        .html(`
+          <div class="tooltip-title">${d.sys_name}</div>
+            <p>${d.sy_dist} pc</p>
+            <p>${d.pl_rade} ER : ${d.pl_bmasse} EM</p>
+        `);
+    })
+    .on('mouseleave', () => {
+      d3.select('#tooltip').style('opacity', 0);
+    });
     
     // Update the axes/gridlines
     // We use the second .call() to remove the axis and just show gridlines

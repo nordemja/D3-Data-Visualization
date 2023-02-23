@@ -107,7 +107,19 @@ class Barchart {
         .attr('x', d => vis.xScale(vis.xValue(d)))
         .attr('width', vis.xScale.bandwidth())
         .attr('height', d => vis.height - vis.yScale(vis.yValue(d)))
-        .attr('y', d => vis.yScale(vis.yValue(d)))
+        .attr('y', d => vis.yScale(vis.yValue(d)));
+
+    bars
+      .on('click', function(event, d) {
+        const isActive = dataFilter.includes(d.star_num);
+        if (isActive) {
+          dataFilter = dataFilter.filter((f) => f !== d.star_num);
+        } else {
+          dataFilter.push(d.star_num);
+        }
+        filterData()
+      })
+
     
     // Tooltip event listeners
     bars
@@ -115,7 +127,7 @@ class Barchart {
           d3.select('#tooltip')
             .style('opacity', 1)
             // Format number with million and thousand separator
-            .html(`<div class="tooltip-label">Amount of Planets</div>${d3.format(',')(d.frequency)}`);
+            .html(`<div class="tooltip-label">Amount of Planets</div>${d3.format(',')(d.frequency)}`)
         })
         .on('mousemove', (event) => {
           d3.select('#tooltip')
@@ -161,6 +173,7 @@ class Barchart {
       .attr("text-anchor", "middle")  
       .style("font-size", "16px") 
       .style("text-decoration", "underline")  
+      .style("text-decoration", "bold")  
       .text(vis.title);
 
     
