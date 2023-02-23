@@ -75,6 +75,7 @@ class Scatterplot {
    */
   updateVis() {
     let vis = this;
+    //console.log(vis.data)
     
     // Specificy accessor functions
     vis.xValue = d => d.pl_rade;
@@ -106,8 +107,6 @@ class Scatterplot {
         .attr('fill', "steelblue");
 
     // Tooltip event listeners
-    console.log(vis.data)
-    // Tooltip event listeners
     circles
     .on('mouseover', (event,d) => {
       d3.select('#tooltip')
@@ -116,8 +115,7 @@ class Scatterplot {
         .style('left', (event.pageX + vis.config.tooltipPadding) + 'px')
         .style('top', (event.pageY + vis.config.tooltipPadding) + 'px')
         .html(`
-          <div class="tooltip-title">${d.sys_name}</div>
-            <p>${d.sy_dist} pc</p>
+          <div class="tooltip-title">${d.pl_name}</div>
             <p>${d.pl_rade} ER : ${d.pl_bmasse} EM</p>
         `);
     })

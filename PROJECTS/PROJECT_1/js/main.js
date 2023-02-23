@@ -2,10 +2,22 @@ let data;
 let dataFilter = [];
 let data_w_no_blank_radius = [];
 
+let solar_system_arr = [
+    {pl_name: "Mercury", pl_bmasse: .0553, pl_rade: .192},
+    {pl_name: "Venus", pl_bmasse: .815, pl_rade: .475},
+    {pl_name: "Earth", pl_bmasse: 1, pl_rade: 1},
+    {pl_name: "Mars", pl_bmasse: .107, pl_rade: .267},
+    {pl_name: "Jupiter", pl_bmasse: 317.8, pl_rade: 5.61},
+    {pl_name: "Saturn", pl_bmasse: 95.2, pl_rade: 4.73},
+    {pl_name: "Uranus", pl_bmasse: 14.5, pl_rade: 2.01},
+    {pl_name: "Neptune", pl_bmasse: 17.1, pl_rade: 1.94},
+    {pl_name: "Pluto", pl_bmasse: .0022, pl_rade: .094}
+]
+
 d3.csv('data/exoplanets-1.csv')
-    .then(data => {
+    .then(_data => {
         console.log('Data loading complete. Work with dataset.');
-        console.log(data);
+        console.log(_data);
 
         let = starDict = {};
         let = star_arr = [];
@@ -19,18 +31,15 @@ d3.csv('data/exoplanets-1.csv')
         let = discoverDict = {};
         let = discover_arr = [];
 
-        let = disc_year_dict = {};
-        let = disc_year_arr = [];
-
         let habitable_arr = [];
-
-        let distance_arr = []
 
         let A_dict = {};
         let F_dict = {};
         let G_dict = {};
         let K_dict = {};
         let M_dict = {};
+
+        data  = _data
 
         data.forEach(d => { //ARROW function - for each object in the array, pass it as a parameter to this function
             d.st_mass = +d.st_mass;
@@ -40,6 +49,10 @@ d3.csv('data/exoplanets-1.csv')
             d.pl_rade = +d.pl_rade;
             d.sy_dist = +d.sy_dist
             d.sy_snum = +d.sy_snum
+
+            if (d.pl_rade > 0 && d.pl_bmasse > 0) {
+                data_w_no_blank_radius.push(d)
+            }
 
 
             if (starDict[d.sy_snum] == undefined) {
@@ -67,17 +80,6 @@ d3.csv('data/exoplanets-1.csv')
             } else {
                 discoverDict[d.discoverymethod] += 1;
             }
-
-
-            if (disc_year_dict[d.disc_year] == undefined) {
-                disc_year_dict[d.disc_year] = 1
-            } else {
-                disc_year_dict[d.disc_year] += 1;
-            }
-
-            temp = Object()
-            temp.distance = d.sy_dist
-            distance_arr.push(temp)
 
             star_type = d.st_spectype.charAt(0)
             if (star_type == "A") {
@@ -239,14 +241,7 @@ d3.csv('data/exoplanets-1.csv')
 
         discover_arr.push(other_object)
 
-        for (const property in disc_year_dict) {
-            temp = Object();
-            temp.year = +property;
-            temp.count = disc_year_dict[property];
-            disc_year_arr.push(temp);
-        }
 
-        // Initialize chart and then show it
 
         // Sort data by population
         star_arr.sort((a, b) => b.frequency - a.frequency);
@@ -281,29 +276,29 @@ d3.csv('data/exoplanets-1.csv')
 
         histogram = new Histogram({
             parentElement: '#histogram'
-        }, distance_arr, "Range (Miles)", "Total Number of Planets", "Distance of Exoplanets from Earth");
+        }, data, "Range (Miles)", "Total Number of Planets", "Distance of Exoplanets from Earth");
         histogram.updateVis()
 
         lineChart = new LineChart({
             parentElement: '#linechart'
-        }, disc_year_arr, "Discovery Year", "Count", "Discoveries of Exoplanets over Time");
+        }, data, "Discovery Year", "Count", "Discoveries of Exoplanets over Time");
         lineChart.updateVis();
 
-        data.forEach((d, index) => {
-            if (d.pl_rade > 0 && d.pl_bmasse > 0) {
-                data_w_no_blank_radius.push(data[index])
-            }
-        })
+        solar_system_arr.forEach(d => {
 
-        //console.log(data_w_no_blank_radius);
+            data_w_no_blank_radius.push(d)
+
+        })
+        console.log(data_w_no_blank_radius)
+        
         scatterplot = new Scatterplot({
             parentElement: '#scatterplot'
         }, data_w_no_blank_radius, "Planet Radius (Earth Radius)", "Planet Mass (Earth Mass)", "Exoplanet Mass vs Radius");
         scatterplot.updateVis();
 
 
-
     })
+    
     .catch(error => {
         console.error(console.error());
     });
@@ -311,15 +306,18 @@ d3.csv('data/exoplanets-1.csv')
     function filterData() {
         if(dataFilter.length == 0) {
             scatterplot.data = data_w_no_blank_radius;
-            console.log(scatterplot.data)
+            histogram.data = data
+            lineChart.data = data
         } else {
-            console.log(data_w_no_blank_radius)
             scatterplot.data = data_w_no_blank_radius.filter((d) => dataFilter.includes(d.sy_snum))
-            console.log(disc_year_arr)
-            lineChart.data = disc_year_arr.filter((d) => dataFilter.includes(d.sy_snum))
+            histogram.data = data.filter((d) => dataFilter.includes(d.sy_snum))
+            lineChart.data = data.filter((d) => dataFilter.includes(d.sy_snum))
             console.log(lineChart.data)
-            console.log(scatterplot.data)
+
+
         }
         console.log(dataFilter)
+        histogram.updateVis()
+        lineChart.updateVis()
         scatterplot.updateVis();
     }

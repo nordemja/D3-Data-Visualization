@@ -99,7 +99,7 @@ class Barchart {
     let bars = vis.chart.selectAll('.bar')
         .data(vis.data, vis.xValue)
       .join('rect');
-    
+
     bars.style('opacity', 0.5)
       .transition().duration(1000)
         .style('opacity', 1)
