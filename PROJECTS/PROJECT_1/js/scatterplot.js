@@ -75,7 +75,6 @@ class Scatterplot {
    */
   updateVis() {
     let vis = this;
-    //console.log(vis.data)
     
     // Specificy accessor functions
     vis.xValue = d => d.pl_rade;
@@ -85,6 +84,9 @@ class Scatterplot {
     vis.xScale.domain(d3.extent(vis.data, function(d) { return d.pl_rade; }))
     vis.yScale.domain(d3.extent(vis.data, function(d) { return d.pl_bmasse; }))
 
+    vis.colorScale = d3.scaleOrdinal()
+        .range(['#4682B4', '#eb5e34']) // steel blue or red
+        .domain(['0','1']);
 
 
     vis.renderVis();
@@ -99,12 +101,31 @@ class Scatterplot {
     // Add circles
     const circles = vis.chart.selectAll('.point')
         .data(vis.data, d => d.trail)
-      .join('circle')
+        .join('circle')
         .attr('class', 'point')
         .attr('r', 4)
-        .attr("cx", function (d) { return vis.xScale(d.pl_rade); } )
-        .attr("cy", function (d) { return vis.yScale(d.pl_bmasse); } )
-        .attr('fill', "steelblue");
+        .attr("cx", function(d) {
+            return vis.xScale(d.pl_rade);
+        })
+        .attr("cy", function(d) {
+            return vis.yScale(d.pl_bmasse);
+        })
+        .attr('fill', d => vis.colorScale(d.solar_system));
+
+
+
+      vis.chart.selectAll("text")
+         .data(vis.data)
+         .join("text")
+         .attr('class', 'solar_system')
+         .text(function(d) {
+          return `${d.label}`
+         })
+         .attr('x', function(d) {
+          return d.labelXOffset + vis.xScale(d.pl_rade) 
+         })
+         .attr('y', function(d) {
+          return d.labelYOffset + vis.yScale( d.pl_bmasse)})
 
     // Tooltip event listeners
     circles

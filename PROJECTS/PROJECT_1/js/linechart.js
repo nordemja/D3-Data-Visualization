@@ -183,8 +183,9 @@ class LineChart {
                   .attr('transform', `translate(${vis.xScale(d.year)},${vis.yScale(d.count)})`);
 
               vis.tooltip.select('text')
+                    .attr('class', 'solar_system')
                   .attr('transform', `translate(${vis.xScale(d.year)},${(vis.yScale(d.count) - 15)})`)
-                  .text(d.count);
+                  .text(d.count + " planets");
           });
 
       // Update the axes

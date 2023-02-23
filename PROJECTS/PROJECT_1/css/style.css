@@ -45,7 +45,6 @@ h1 {
 }
 .bar {
   fill: steelblue;
- ;
   shape-rendering: crispEdges;
 }
 .bar:hover {
@@ -73,6 +72,10 @@ h1 {
 }
 .point {
   fill: "black" 
+}
+.solar_system {
+  font-size: 12px;
+  font-weight: bold;
 }
 /*tooltip*/
 #tooltip {

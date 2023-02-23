@@ -3,15 +3,14 @@ let dataFilter = [];
 let data_w_no_blank_radius = [];
 
 let solar_system_arr = [
-    {pl_name: "Mercury", pl_bmasse: .0553, pl_rade: .192},
-    {pl_name: "Venus", pl_bmasse: .815, pl_rade: .475},
-    {pl_name: "Earth", pl_bmasse: 1, pl_rade: 1},
-    {pl_name: "Mars", pl_bmasse: .107, pl_rade: .267},
-    {pl_name: "Jupiter", pl_bmasse: 317.8, pl_rade: 5.61},
-    {pl_name: "Saturn", pl_bmasse: 95.2, pl_rade: 4.73},
-    {pl_name: "Uranus", pl_bmasse: 14.5, pl_rade: 2.01},
-    {pl_name: "Neptune", pl_bmasse: 17.1, pl_rade: 1.94},
-    {pl_name: "Pluto", pl_bmasse: .0022, pl_rade: .094}
+    {pl_name: "Mercury", label: "Mercury", pl_bmasse: .0553, pl_rade: .192, solar_system: "yes", labelYOffset: 5, labelXOffset: 0},
+    {pl_name: "Venus", label: "Venus", pl_bmasse: .815, pl_rade: .475, solar_system: "yes", labelYOffset: -5, labelXOffset: -10},
+    {pl_name: "Earth", label: "Earth", pl_bmasse: 1, pl_rade: 1, solar_system: "yes", labelYOffset: 0, labelXOffset: 0},
+    {pl_name: "Mars", label: "Mars", pl_bmasse: .107, pl_rade: .267, solar_system: "yes", labelYOffset: 0, labelXOffset: 0},
+    {pl_name: "Jupiter", label: "Jupiter", pl_bmasse: 317.8, pl_rade: 5.61, solar_system: "yes", labelYOffset: 0, labelXOffset: 0},
+    {pl_name: "Saturn", label: "Saturn", pl_bmasse: 95.2, pl_rade: 4.73, solar_system: "yes", labelYOffset: 10, labelXOffset: 0},
+    {pl_name: "Uranus", label: "Uranus", pl_bmasse: 14.5, pl_rade: 2.01, solar_system: "yes", labelYOffset: 10, labelXOffset: 2},
+    {pl_name: "Neptune", label: "Neptune", pl_bmasse: 17.1, pl_rade: 1.94, solar_system: "yes", labelYOffset: -5, labelXOffset: -40}
 ]
 
 d3.csv('data/exoplanets-1.csv')
@@ -51,6 +50,8 @@ d3.csv('data/exoplanets-1.csv')
             d.sy_snum = +d.sy_snum
 
             if (d.pl_rade > 0 && d.pl_bmasse > 0) {
+                d.solar_system = 'no'
+                d.label = ''
                 data_w_no_blank_radius.push(d)
             }
 
