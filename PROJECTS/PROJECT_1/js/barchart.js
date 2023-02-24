@@ -73,6 +73,7 @@ class Barchart {
    */
   updateVis() {
     let vis = this;
+    console.log(vis.property)
 
     //map spectype to first letter of value
     if (vis.property == "st_spectype") {
@@ -122,6 +123,7 @@ class Barchart {
     }
 
     vis.aggregatedData.sort((a, b) => b.count - a.count);
+    console.log(vis.aggregatedData)
 
 
     // Specificy x- and y-accessor functions
