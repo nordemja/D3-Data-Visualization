@@ -5,7 +5,7 @@ class Barchart {
    * @param {Object}
    * @param {Array}
    */
-  constructor(_config, _data, _x_axis_label, _y_axis_label, _title) {
+  constructor(_config, _data, _property, _x_axis_label, _y_axis_label, _title) {
     // Configuration object with defaults
     this.config = {
       parentElement: _config.parentElement,
@@ -19,6 +19,7 @@ class Barchart {
     this.x_axis_label = _x_axis_label;
     this.y_axis_label = _y_axis_label;
     this.title = _title;
+    this.property = _property;
     this.initVis();
   }
   
@@ -73,18 +74,63 @@ class Barchart {
   updateVis() {
     let vis = this;
 
-    // Reverse column order depending on user selection
-    if (vis.config.reverseOrder) {
-      vis.data.reverse();
+    //map spectype to first letter of value
+    if (vis.property == "st_spectype") {
+      vis.data.forEach(d => {
+        d[vis.property] = d[vis.property].charAt(0)
+
+        //if no spectype -- then it is unknown
+        if (d[vis.property] == "") {
+          d[vis.property] = "Unknown"
+        }  
+
+      }
+
+
+      );
     }
 
+    vis.gfg = d3.rollups(vis.data, g => g.length, d => d[vis.property]);
+
+    vis.aggregatedData = Array.from(vis.gfg, ([key, count]) => ({
+      key,
+      count
+    }));
+
+    vis.temp_arr = []
+    vis.temp_other_count = 0
+
+    vis.aggregatedData.forEach( d => {
+      if (vis.property == "st_spectype") {
+        if (d.key == "A" || d.key == "F" || d.key == "G" || d.key == "K" || d.key == "M" || d.key == "Unknown") {
+          vis.temp_arr.push(d)
+        }
+        vis.aggregatedData = vis.temp_arr
+      }
+      if (vis.property == "discoverymethod") {
+        if (d.count >= 30) {
+          vis.temp_arr.push(d)
+        } else {
+          vis.temp_other_count += d.count
+        }
+        vis.aggregatedData = vis.temp_arr
+      }
+    });
+
+    if (vis.property == "discoverymethod") {
+      vis.aggregatedData.push({key: "Other", count: vis.temp_other_count})
+    }
+
+    vis.aggregatedData.sort((a, b) => b.count - a.count);
+
+
     // Specificy x- and y-accessor functions
-    vis.xValue = d => d.star_num;
-    vis.yValue = d => d.frequency;
+    vis.xValue = d => d.key;
+    vis.yValue = d => d.count;
 
     // Set the scale input domains
-    vis.xScale.domain(vis.data.map(vis.xValue));
-    vis.yScale.domain([0, d3.max(vis.data, vis.yValue)]).nice();
+    vis.xScale.domain(vis.aggregatedData.map(vis.xValue));
+    vis.yScale.domain([0, d3.max(vis.aggregatedData, vis.yValue)]).nice();
 
     vis.renderVis();
   }
@@ -95,9 +141,10 @@ class Barchart {
   renderVis() {
     let vis = this;
 
+
     // Add rectangles
     let bars = vis.chart.selectAll('.bar')
-        .data(vis.data, vis.xValue)
+        .data(vis.aggregatedData, vis.xValue)
       .join('rect');
 
     bars.style('opacity', 0.5)
@@ -111,11 +158,11 @@ class Barchart {
 
     bars
       .on('click', function(event, d) {
-        const isActive = dataFilter.includes(d.star_num);
+        const isActive = dataFilter.includes(d.key);
         if (isActive) {
-          dataFilter = dataFilter.filter((f) => f !== d.star_num);
+          dataFilter = dataFilter.filter((f) => f !== d.key);
         } else {
-          dataFilter.push(d.star_num);
+          dataFilter.push(d.key);
         }
         filterData()
       })
@@ -127,7 +174,7 @@ class Barchart {
           d3.select('#tooltip')
             .style('opacity', 1)
             // Format number with million and thousand separator
-            .html(`<div class="tooltip-label">Amount of Planets</div>${d3.format(',')(d.frequency)}`)
+            .html(`<div class="tooltip-label">Amount of Planets</div>${d3.format(',')(d.count)}`)
         })
         .on('mousemove', (event) => {
           d3.select('#tooltip')
@@ -148,7 +195,9 @@ class Barchart {
             .style("text-anchor", "start")
             .attr('transform',"rotate(25)")
 
-    vis.yAxisG.call(vis.yAxis);3
+    vis.yAxisG
+    .transition().duration(1000)
+    .call(vis.yAxis);
 
     // Append both axis titles
     vis.chart.append('text')

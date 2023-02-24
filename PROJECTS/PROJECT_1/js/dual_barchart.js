@@ -26,7 +26,6 @@ class dual_barchart {
   
     initVis() {
         let vis = this;
-        console.log(vis.data)
   
         // Calculate inner chart size. Margin specifies the space around the actual chart.
         vis.width = vis.config.containerWidth - vis.config.margin.left - vis.config.margin.right;

@@ -51,7 +51,9 @@ d3.csv('data/exoplanets-1.csv')
 
             if (d.pl_rade > 0 && d.pl_bmasse > 0) {
                 d.solar_system = 'no'
-                d.label = ''
+                d.label = '',
+                d.labelYOffset = 0, 
+                d.labelXOffset = 0,
                 data_w_no_blank_radius.push(d)
             }
 
@@ -245,29 +247,24 @@ d3.csv('data/exoplanets-1.csv')
 
 
         // Sort data by population
-        star_arr.sort((a, b) => b.frequency - a.frequency);
-
         barchart = new Barchart({
             parentElement: '#barchart'
-        }, star_arr, "Amount of Stars", "Total Number of Planets", "Amount of Stars In Each Exoplanet System");
+        }, data, "sy_snum", "Amount of Stars", "Total Number of Planets", "Amount of Stars In Each Exoplanet System");
         barchart.updateVis();
 
-        planet_arr.sort((a, b) => b.frequency - a.frequency);
         barchart1 = new Barchart({
             parentElement: '#barchart1'
-        }, planet_arr, "Amount of Planets", "Total Number of Planets", "Amount of Planets In Each Exoplanet System");
+        }, data, "sy_pnum", "Amount of Planets", "Total Number of Planets", "Amount of Planets In Each Exoplanet System");
         barchart1.updateVis();
 
-        star_orbit_arr.sort((a, b) => b.frequency - a.frequency);
         barchart2 = new Barchart({
             parentElement: '#barchart2'
-        }, star_orbit_arr, "Star Type", "Total Number of Planets", "Stars Types Exoplanets Orbit");
+        }, data, "st_spectype", "Star Type", "Total Number of Planets", "Stars Types Exoplanets Orbit");
         barchart2.updateVis();
 
-        discover_arr.sort((a, b) => b.frequency - a.frequency);
         barchart3 = new Barchart({
             parentElement: '#barchart3'
-        }, discover_arr, "Dicovery Method", "Total Number of Planets", "Disvoery Methods of Exoplanets");
+        }, data, "discoverymethod", "Dicovery Method", "Total Number of Planets", "Disvoery Methods of Exoplanets");
         barchart3.updateVis();
 
         DualBarchart = new dual_barchart({
@@ -277,7 +274,7 @@ d3.csv('data/exoplanets-1.csv')
 
         histogram = new Histogram({
             parentElement: '#histogram'
-        }, data, "Range (Miles)", "Total Number of Planets", "Distance of Exoplanets from Earth");
+        }, data, "Range (Parsecs)", "Total Number of Planets", "Distance of Exoplanets from Earth");
         histogram.updateVis()
 
         lineChart = new LineChart({
@@ -290,7 +287,6 @@ d3.csv('data/exoplanets-1.csv')
             data_w_no_blank_radius.push(d)
 
         })
-        console.log(data_w_no_blank_radius)
         
         scatterplot = new Scatterplot({
             parentElement: '#scatterplot'
@@ -309,16 +305,26 @@ d3.csv('data/exoplanets-1.csv')
             scatterplot.data = data_w_no_blank_radius;
             histogram.data = data
             lineChart.data = data
+            barchart.data = data
+            barchart1.data = data
+            barchart2.data = data
+            barchart3.data = data
         } else {
             scatterplot.data = data_w_no_blank_radius.filter((d) => dataFilter.includes(d.sy_snum))
             histogram.data = data.filter((d) => dataFilter.includes(d.sy_snum))
             lineChart.data = data.filter((d) => dataFilter.includes(d.sy_snum))
-            console.log(lineChart.data)
-
-
+            barchart.data = data.filter((d) => dataFilter.includes(d.sy_snum))
+            barchart1.data = data.filter((d) => dataFilter.includes(d.sy_snum))
+            barchart2.data = data.filter((d) => dataFilter.includes(d.sy_snum))
+            barchart3.data = data.filter((d) => dataFilter.includes(d.sy_snum))
         }
         console.log(dataFilter)
+        console.log(barchart2.data)
         histogram.updateVis()
         lineChart.updateVis()
+        barchart.updateVis()
+        barchart1.updateVis()
+        barchart2.updateVis()
+        barchart3.updateVis()
         scatterplot.updateVis();
     }
