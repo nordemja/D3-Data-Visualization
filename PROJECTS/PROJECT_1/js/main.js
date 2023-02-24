@@ -305,7 +305,6 @@ d3.csv('data/exoplanets-1.csv')
             scatterplot.data = data_w_no_blank_radius;
             histogram.data = data
             lineChart.data = data
-            barchart.data = data
             barchart1.data = data
             barchart2.data = data
             barchart3.data = data
@@ -313,7 +312,6 @@ d3.csv('data/exoplanets-1.csv')
             scatterplot.data = data_w_no_blank_radius.filter((d) => dataFilter.includes(d.sy_snum))
             histogram.data = data.filter((d) => dataFilter.includes(d.sy_snum))
             lineChart.data = data.filter((d) => dataFilter.includes(d.sy_snum))
-            barchart.data = data.filter((d) => dataFilter.includes(d.sy_snum))
             barchart1.data = data.filter((d) => dataFilter.includes(d.sy_snum))
             barchart2.data = data.filter((d) => dataFilter.includes(d.sy_snum))
             barchart3.data = data.filter((d) => dataFilter.includes(d.sy_snum))
@@ -322,7 +320,6 @@ d3.csv('data/exoplanets-1.csv')
         console.log(barchart2.data)
         histogram.updateVis()
         lineChart.updateVis()
-        barchart.updateVis()
         barchart1.updateVis()
         barchart2.updateVis()
         barchart3.updateVis()

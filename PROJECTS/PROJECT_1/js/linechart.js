@@ -189,8 +189,14 @@ class LineChart {
           });
 
       // Update the axes
-      vis.xAxisG.call(vis.xAxis);
-      vis.yAxisG.call(vis.yAxis);
+      vis.xAxisG
+      .transition().duration(1000)
+      .call(vis.xAxis);
+
+
+      vis.yAxisG
+      .transition().duration(1000).
+      call(vis.yAxis);
 
 
       // Append both axis titles

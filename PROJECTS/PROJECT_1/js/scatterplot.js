@@ -148,9 +148,11 @@ class Scatterplot {
     // We use the second .call() to remove the axis and just show gridlines
 
     vis.xAxisG
+    .transition().duration(1000)
     .call(vis.xAxis)
 
     vis.yAxisG
+    .transition().duration(1000)
         .call(vis.yAxis)
 
     // Append both axis titles
