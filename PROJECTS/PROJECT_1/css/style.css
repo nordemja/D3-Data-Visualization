@@ -51,6 +51,9 @@ h1 {
   fill: #c15f45;
   transition: fill ease-in-out 200ms;
 }
+.bar.active {
+  stroke: #0fa528;
+}
 .dual_bar:hover {
   fill: #c15f45;
   transition: fill ease-in-out 200ms;
@@ -98,4 +101,37 @@ h1 {
   fill: none;
   stroke: steelblue;
   stroke-width: 2px;
+}
+
+/* Legend */
+.legend {
+  margin: 2px 0;
+  list-style: none;
+  padding: 0;
+  font-size: 20px;
+}
+.legend-btn {
+  display: inline-block;
+  margin: 0 20px 0 0;
+  cursor: pointer;
+  transition: all ease-in-out 200ms;
+}
+.legend-btn:hover.legend-btn.inactive:hover  {
+  opacity: 0.7;
+}
+.legend-btn.inactive {
+  opacity: 0.5;
+}
+.legend-symbol {
+  width: 12px;
+  height: 12px;
+  margin-right: 3px;
+  display: inline-block;
+}
+
+.legend-btn[data-difficulty="Habitable"] .legend-symbol {
+  background: #377eb8;
+}
+.legend-btn[data-difficulty="Unhabitable"] .legend-symbol {
+  background: #f59d0f;
 }

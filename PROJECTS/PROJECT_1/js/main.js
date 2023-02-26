@@ -1,5 +1,6 @@
 let data;
 let dataFilter = [];
+let vis_list = []
 let data_w_no_blank_radius = [];
 
 let solar_system_arr = [
@@ -46,8 +47,9 @@ d3.csv('data/exoplanets-1.csv')
             d.disc_year = +d.disc_year;
             d.pl_bmasse = +d.pl_bmasse;
             d.pl_rade = +d.pl_rade;
-            d.sy_dist = +d.sy_dist
-            d.sy_snum = +d.sy_snum
+            d.sy_dist = +d.sy_dist;
+            d.sy_snum = +d.sy_snum;
+            d.sy_pnum = +d.sy_pnum;
 
             if (d.pl_rade > 0 && d.pl_bmasse > 0) {
                 d.solar_system = 'no'
@@ -251,36 +253,43 @@ d3.csv('data/exoplanets-1.csv')
             parentElement: '#barchart'
         }, data, "sy_snum", "Amount of Stars", "Total Number of Planets", "Amount of Stars In Each Exoplanet System");
         barchart.updateVis();
+        vis_list.push(barchart)
 
         barchart1 = new Barchart({
             parentElement: '#barchart1'
         }, data, "sy_pnum", "Amount of Planets", "Total Number of Planets", "Amount of Planets In Each Exoplanet System");
         barchart1.updateVis();
+        vis_list.push(barchart1)
 
         barchart2 = new Barchart({
             parentElement: '#barchart2'
         }, data, "st_spectype", "Star Type", "Total Number of Planets", "Stars Types Exoplanets Orbit");
         barchart2.updateVis();
+        vis_list.push(barchart2)
 
         barchart3 = new Barchart({
             parentElement: '#barchart3'
         }, data, "discoverymethod", "Dicovery Method", "Total Number of Planets", "Disvoery Methods of Exoplanets");
         barchart3.updateVis();
+        vis_list.push(barchart3)
 
         DualBarchart = new dual_barchart({
             parentElement: '#dual_barchart'
         }, habitable_arr, ['unhabitable', 'habitable'], "Star Type", "Total Number of Planets", "Habitatle and Unhabitable Exoplanets per Star Type");
         DualBarchart.updateVis();
+        //vis_list.push(DualBarchart)
 
         histogram = new Histogram({
             parentElement: '#histogram'
         }, data, "Range (Parsecs)", "Total Number of Planets", "Distance of Exoplanets from Earth");
         histogram.updateVis()
+        vis_list.push(histogram)
 
         lineChart = new LineChart({
             parentElement: '#linechart'
         }, data, "Discovery Year", "Count", "Discoveries of Exoplanets over Time");
         lineChart.updateVis();
+        vis_list.push(lineChart)
 
         solar_system_arr.forEach(d => {
 
@@ -293,35 +302,32 @@ d3.csv('data/exoplanets-1.csv')
         }, data_w_no_blank_radius, "Planet Radius (Earth Radius)", "Planet Mass (Earth Mass)", "Exoplanet Mass vs Radius");
         scatterplot.updateVis();
 
-
     })
     
     .catch(error => {
         console.error(console.error());
     });
 
-    function filterData() {
+    function filterData(property) {
+
+        vis_list.forEach(v => {
+            if (v.property == property) {
+                let index = vis_list.indexOf(v)
+                temp = vis_list[index]
+            }
+            if (dataFilter.length == 0) {
+            v.data = data
+            } else {
+                v.data = data.filter((d) => dataFilter.includes(d.sy_snum))
+            }
+            v.updateVis()
+        })
         if(dataFilter.length == 0) {
             scatterplot.data = data_w_no_blank_radius;
-            histogram.data = data
-            lineChart.data = data
-            barchart1.data = data
-            barchart2.data = data
-            barchart3.data = data
+
         } else {
             scatterplot.data = data_w_no_blank_radius.filter((d) => dataFilter.includes(d.sy_snum))
-            histogram.data = data.filter((d) => dataFilter.includes(d.sy_snum))
-            lineChart.data = data.filter((d) => dataFilter.includes(d.sy_snum))
-            barchart1.data = data.filter((d) => dataFilter.includes(d.sy_snum))
-            barchart2.data = data.filter((d) => dataFilter.includes(d.sy_snum))
-            barchart3.data = data.filter((d) => dataFilter.includes(d.sy_snum))
+
         }
-        console.log(dataFilter)
-        console.log(barchart2.data)
-        histogram.updateVis()
-        lineChart.updateVis()
-        barchart1.updateVis()
-        barchart2.updateVis()
-        barchart3.updateVis()
         scatterplot.updateVis();
     }

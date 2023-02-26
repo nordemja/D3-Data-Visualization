@@ -73,7 +73,6 @@ class Barchart {
    */
   updateVis() {
     let vis = this;
-    console.log(vis.property)
 
     //map spectype to first letter of value
     if (vis.property == "st_spectype") {
@@ -81,7 +80,7 @@ class Barchart {
         d[vis.property] = d[vis.property].charAt(0)
 
         //if no spectype -- then it is unknown
-        if (d[vis.property] == "") {
+        if (d[vis.property] == "" || d[vis.property] == "U") {
           d[vis.property] = "Unknown"
         }  
 
@@ -123,7 +122,6 @@ class Barchart {
     }
 
     vis.aggregatedData.sort((a, b) => b.count - a.count);
-    console.log(vis.aggregatedData)
 
 
     // Specificy x- and y-accessor functions
@@ -165,8 +163,10 @@ class Barchart {
           dataFilter = dataFilter.filter((f) => f !== d.key);
         } else {
           dataFilter.push(d.key);
+          d3.select(this).classed("active", !isActive); // Add class to style active filters with CSS
         }
-        filterData()
+        
+        filterData(vis.property)
       })
 
     

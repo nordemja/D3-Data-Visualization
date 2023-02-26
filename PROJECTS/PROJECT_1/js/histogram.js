@@ -142,6 +142,7 @@ class Histogram {
             .attr('transform', "rotate(35)")
 
         vis.yAxisG
+        .transition().duration(1000)
             .call(vis.yAxis);
 
         vis.chart.append('text')
