@@ -11,7 +11,12 @@ class Histogram {
             parentElement: _config.parentElement,
             containerWidth: _config.containerWidth || 450,
             containerHeight: _config.containerHeight || 200,
-            margin: _config.margin ||  {top: 25, right: 50, bottom: 55, left: 80},
+            margin: _config.margin || {
+                top: 25,
+                right: 50,
+                bottom: 55,
+                left: 80
+            },
             reverseOrder: _config.reverseOrder || false,
             tooltipPadding: _config.tooltipPadding || 15
         }
@@ -73,7 +78,7 @@ class Histogram {
         let vis = this;
 
         vis.xScale.domain([0, 2400]).nice()
-        
+
         // set the parameters for the histogram
         vis.histogram = d3.histogram()
             .value(function(d) {
@@ -142,7 +147,7 @@ class Histogram {
             .attr('transform', "rotate(35)")
 
         vis.yAxisG
-        .transition().duration(1000)
+            .transition().duration(1000)
             .call(vis.yAxis);
 
         vis.chart.append('text')
@@ -162,11 +167,11 @@ class Histogram {
             .text(vis.y_axis_label);
 
         vis.chart.append("text")
-            .attr("x", (vis.width / 2))             
+            .attr("x", (vis.width / 2))
             .attr("y", 0 - (vis.config.margin.top / 2))
-            .attr("text-anchor", "middle")  
-            .style("font-size", "16px") 
-            .style("text-decoration", "underline")  
+            .attr("text-anchor", "middle")
+            .style("font-size", "16px")
+            .style("text-decoration", "underline")
             .text(vis.title);
 
     }
