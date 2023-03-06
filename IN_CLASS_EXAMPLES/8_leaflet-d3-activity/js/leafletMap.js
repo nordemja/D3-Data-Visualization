@@ -43,8 +43,8 @@ class LeafletMap {
     });
 
     vis.theMap = L.map('my-map', {
-      center: [30, 0],
-      zoom: 2,
+      center: [39.2, -84.5],
+      zoom: 10,
       layers: [vis.base_layer]
     });
 
@@ -78,7 +78,7 @@ class LeafletMap {
                                 .style('opacity', 1)
                                 .style('z-index', 1000000)
                                   // Format number with million and thousand separator
-                                .html(`<div class="tooltip-label">City: ${d.city}, population ${d3.format(',')(d.population)}</div>`);
+                                .html(`<div class="tooltip-label">Address: ${d.ADDRESS}, requested date:  ${d.REQUESTED_DATE}</div>`);
 
                           })
                         .on('mousemove', (event) => {
